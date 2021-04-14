@@ -11,6 +11,7 @@
 		432C38C826269EE900BAAEE8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C38C726269EE900BAAEE8 /* ContentView.swift */; };
 		432C38CA26269EED00BAAEE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 432C38C926269EED00BAAEE8 /* Assets.xcassets */; };
 		432C38CD26269EED00BAAEE8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 432C38CC26269EED00BAAEE8 /* Preview Assets.xcassets */; };
+		432C38D62626A18A00BAAEE8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 432C38D52626A18A00BAAEE8 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		432C38C926269EED00BAAEE8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		432C38CC26269EED00BAAEE8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		432C38CE26269EED00BAAEE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		432C38D52626A18A00BAAEE8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				432C38C526269EE900BAAEE8 /* iOSFinalApp.swift */,
+				432C38D52626A18A00BAAEE8 /* GoogleService-Info.plist */,
 				432C38C726269EE900BAAEE8 /* ContentView.swift */,
 				432C38C926269EED00BAAEE8 /* Assets.xcassets */,
 				432C38CE26269EED00BAAEE8 /* Info.plist */,
@@ -128,6 +131,7 @@
 			files = (
 				432C38CD26269EED00BAAEE8 /* Preview Assets.xcassets in Resources */,
 				432C38CA26269EED00BAAEE8 /* Assets.xcassets in Resources */,
+				432C38D62626A18A00BAAEE8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +281,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-.iOSFinal";
+				PRODUCT_BUNDLE_IDENTIFIER = bonnie.iOSFinal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -299,7 +303,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-.iOSFinal";
+				PRODUCT_BUNDLE_IDENTIFIER = bonnie.iOSFinal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
