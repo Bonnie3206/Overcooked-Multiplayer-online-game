@@ -12,7 +12,10 @@ struct iOSFinalApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            
+            StartView(playerSignInMail: "", playerSignInPassword: "")
+            //CharacterSetView()
+            
         }
     }
 }
