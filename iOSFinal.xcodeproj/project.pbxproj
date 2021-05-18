@@ -22,6 +22,7 @@
 		437A0F4B264248290028B397 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 437A0F4A264248290028B397 /* Kingfisher */; };
 		437A0F5A264843EF0028B397 /* FirebaseSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A0F59264843EF0028B397 /* FirebaseSet.swift */; };
 		437A0F5D264846CA0028B397 /* CharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A0F5C264846CA0028B397 /* CharacterView.swift */; };
+		43941F75264BFE1E007EA777 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43941F74264BFE1E007EA777 /* TestView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		437A0F462642245D0028B397 /* CharacterSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSetView.swift; sourceTree = "<group>"; };
 		437A0F59264843EF0028B397 /* FirebaseSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSet.swift; sourceTree = "<group>"; };
 		437A0F5C264846CA0028B397 /* CharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterView.swift; sourceTree = "<group>"; };
+		43941F74264BFE1E007EA777 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				432C38C726269EE900BAAEE8 /* ContentView.swift */,
 				437A0F402641B1FC0028B397 /* RegisterView.swift */,
 				437A0F432641B3FA0028B397 /* StartView.swift */,
+				43941F74264BFE1E007EA777 /* TestView.swift */,
 				437A0F462642245D0028B397 /* CharacterSetView.swift */,
 				437A0F5C264846CA0028B397 /* CharacterView.swift */,
 				437A0F59264843EF0028B397 /* FirebaseSet.swift */,
@@ -184,6 +187,7 @@
 				437A0F5A264843EF0028B397 /* FirebaseSet.swift in Sources */,
 				437A0F412641B1FC0028B397 /* RegisterView.swift in Sources */,
 				432C38E52626A51900BAAEE8 /* appDelegate.swift in Sources */,
+				43941F75264BFE1E007EA777 /* TestView.swift in Sources */,
 				437A0F5D264846CA0028B397 /* CharacterView.swift in Sources */,
 				432C38C626269EE900BAAEE8 /* iOSFinalApp.swift in Sources */,
 			);

@@ -65,10 +65,6 @@ struct StartView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 300, height: 300)
-                /*KFImage(URL(string:"https://s.newtalk.tw/album/news/525/600516515a5e7.jpg"))
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 300, height: 300)*/
                
                 Form{
                     Section(header: Text("使用者帳號(mail)"))
@@ -107,6 +103,7 @@ struct StartView: View {
                     })
                     
                     Button(action:{
+                        Text("say:\"1234\"")
                         goRegisterView = true
                     }
                    , label: {

@@ -1,8 +1,8 @@
 //
-//  CharacterSetView.swift
+//  TestView.swift
 //  iOSFinal
 //
-//  Created by CK on 2021/5/5.
+//  Created by CK on 2021/5/12.
 //
 import SwiftUI
 import FirebaseAuth
@@ -11,7 +11,7 @@ import FirebaseStorageSwift//要有swift的,才有result
 import Kingfisher
 import FirebaseFirestoreSwift
 import Firebase
-
+/*
 extension View {
     func snapshot() -> UIImage {
         let controller = UIHostingController(rootView: self)
@@ -28,10 +28,12 @@ extension View {
         }
     }
 }
+*/
 
-struct CharacterSetView: View
+import SwiftUI
+
+struct TestView: View
 {
-    
     @State private var goCharacterView = false
     @State private var uiImage: UIImage?
     @State private var changeFace = "face1"
@@ -293,9 +295,9 @@ struct CharacterSetView: View
             })
             
         }.onAppear(perform:{
-            changeFace = "bearface1"
-            changeBody = "bearbody1"
-            changeHair = "bearhair1"
+            changeFace = "face1"
+            changeBody = "body1"
+            changeHair = "hair1"
             uiImage = demoView.snapshot()
         }
         )
@@ -307,8 +309,11 @@ struct CharacterSetView: View
     }
 }
 
-struct CharacterSetView_Previews: PreviewProvider {
+
+
+struct TestView_Previews: PreviewProvider {
     static var previews: some View {
-        CharacterSetView()
+        TestView()
     }
+    
 }

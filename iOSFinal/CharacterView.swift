@@ -17,12 +17,23 @@ import Firebase
 struct CharacterView: View {
     
     @State private var currentUser = Auth.auth().currentUser
-    
     @State private var userPhotoURL = URL(string: "")
     @State private var userName = ""
     
     var body: some View {
         VStack{
+            KFImage(userPhotoURL)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 300, height: 300)
+            
+            HStack{
+                Text("角色名稱:")
+                
+                Text("\(userName)")
+                    .font(.largeTitle)
+                
+            }
             
             Button(action:
             {
@@ -34,23 +45,8 @@ struct CharacterView: View {
             }
                 , label: {
                 
-                    if let user = Auth.auth().currentUser {
-                        VStack{
-                            KFImage(userPhotoURL)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 300, height: 300)
-                            HStack{
-                                Text("角色名稱")
-                                Text("\(user.displayName ?? "nil")")
-                                    .font(.largeTitle)
-                                
-                            }
-                            Spacer()
-                            Text("進入遊戲")
-                                .font(.largeTitle)
-                        }
-                    }
+                    Text("進入遊戲")
+                        .font(.largeTitle)
                     
             })
         }.onAppear(
@@ -61,8 +57,6 @@ struct CharacterView: View {
                     userName = user.displayName ?? "nil"
                     
                 }
-                
-                
                 
             })
         
