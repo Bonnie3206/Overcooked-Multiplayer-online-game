@@ -24,9 +24,15 @@ struct iOSFinalApp: App {
     var body: some Scene {
         WindowGroup {
             //TestView()
-            StartView(playerSignInMail: "", playerSignInPassword: "")
+            //FirstView(playerSignInMail: "", playerSignInPassword: "")
             //CharacterSetView()
-            
+            //CharacterView()
+            //ContentView()
+            //ErrorView()
+            //GameView()
+            //Test0609View()
+            //SecondView()
+            RoomSearchingView(searchRoomName:"")
         }
     }
 }

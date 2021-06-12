@@ -19,6 +19,10 @@ struct CharacterView: View {
     @State private var currentUser = Auth.auth().currentUser
     @State private var userPhotoURL = URL(string: "")
     @State private var userName = ""
+    @State private var goRoomBuilding = false
+    @State private var goRoomSearching = false
+    
+    @State var searchRoomName: String
     
     var body: some View {
         VStack{
@@ -38,16 +42,25 @@ struct CharacterView: View {
             Button(action:
             {
                 if let user = Auth.auth().currentUser {
-                    
                     print(user.uid, user.email, user.displayName, user.photoURL)
-                    
                 }
+                goRoomBuilding = true
             }
                 , label: {
-                
-                    Text("進入遊戲")
+                    Text("創建房間")
                         .font(.largeTitle)
-                    
+            })
+            Button(action:
+            {
+                if let user = Auth.auth().currentUser {
+                    print(user.uid, user.email, user.displayName, user.photoURL)
+                }
+                goRoomSearching = true
+            }
+                , label: {
+                    Text("搜尋房間")
+                        .font(.largeTitle)
+                        .bold()
             })
         }.onAppear(
             perform:{
@@ -59,6 +72,8 @@ struct CharacterView: View {
                 }
                 
             })
+        EmptyView().sheet(isPresented: $goRoomBuilding, content:{RoomBuildingView()})
+        EmptyView().sheet(isPresented: $goRoomSearching, content:{RoomSearchingView(searchRoomName: searchRoomName)})
         
         
     }
@@ -66,6 +81,8 @@ struct CharacterView: View {
 
 struct CharacterView_Previews: PreviewProvider {
     static var previews: some View {
-        CharacterView()
+        CharacterView(searchRoomName: "")
+            .previewLayout(.fixed(width: 844, height: 390))
+            .previewDevice("iPhone 11")
     }
 }

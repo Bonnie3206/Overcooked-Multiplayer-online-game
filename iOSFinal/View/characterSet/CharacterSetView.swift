@@ -3,7 +3,7 @@
 //  iOSFinal
 //
 //  Created by CK on 2021/5/5.
-//
+////.foregroundColor(.purple)
 import SwiftUI
 import FirebaseAuth
 import FirebaseStorage
@@ -48,9 +48,11 @@ struct CharacterSetView: View
     @State private var genderSelect = ""
     var gender = ["男", "女"]
     
+    @State var searchRoomName: String
     
     
-    func createCharacter() {//創造角色
+    
+    func createCharacter() {
         let db = Firestore.firestore()
         
         let userData = Character(name: characterName, gender: genderSelect,start: 0 )
@@ -72,22 +74,18 @@ struct CharacterSetView: View
         ZStack{
             Image(changeBody)
                 .resizable()
-                .frame(width: 250, height: 300)
+                .frame(width: 200, height: 200)
                 .scaledToFill()
             Image(changeHair)
                 .resizable()
-                .frame(width: 250, height: 300)
+                .frame(width: 200, height: 200)
                 .scaledToFill()
-                
-                //.offset(x:0,y:35)
             
             Image(changeFace)
                 .resizable()
-                .frame(width: 250, height: 300)
+                .frame(width: 200, height: 200)
                 .scaledToFill()
-                //.clipShape(Circle())
-                //.scaleEffect(0.55)
-                //.offset(x:17,y:53)
+                
             
             
         }
@@ -98,7 +96,7 @@ struct CharacterSetView: View
                 Image("角色設定title")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 100, height: 100)
+                    .frame(width: 50, height: 50)
                 Text("來設定遊戲角色吧!")
                     .font(.largeTitle)
             }
@@ -108,6 +106,7 @@ struct CharacterSetView: View
                     Image(uiImage: uiImage)
                 }
                 VStack{
+                    
                     HStack {
                         
                         Button(action: {
@@ -116,13 +115,13 @@ struct CharacterSetView: View
                             }
                             changeFace = "bearFace\(faceNum)"
                             uiImage = demoView.snapshot()
-                            //UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
+                            
                         }, label: {
                             Image(systemName: "chevron.backward.circle.fill")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 30, height: 30)
-                            //.foregroundColor(.purple)
+                            
                         })
                         Text("face")
                         Button(action: {
@@ -133,15 +132,13 @@ struct CharacterSetView: View
                             }
                             changeFace = "bearFace\(faceNum)"
                             uiImage = demoView.snapshot()
-                            //UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
-                            
                             
                         }, label: {
                             Image(systemName: "chevron.right.circle.fill")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 30, height: 30)
-                            //.foregroundColor(.purple)
+                            
                         })
                         
                     }
@@ -153,7 +150,7 @@ struct CharacterSetView: View
                             }
                             changeBody = "bearBody\(bodyTotal)"
                             uiImage = demoView.snapshot()
-                            //UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
+                            
                         }, label: {
                             Image(systemName: "chevron.backward.circle.fill")
                                 .resizable()
@@ -196,7 +193,7 @@ struct CharacterSetView: View
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 30, height: 30)
-                            //.foregroundColor(.purple)
+                            
                         })
                         Text("hair")
                         Button(action: {
@@ -207,9 +204,7 @@ struct CharacterSetView: View
                             }
                             changeHair = "bearHair\(hairNum)"
                             uiImage = demoView.snapshot()
-                            //UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
-                            
-                            
+                           
                         }, label: {
                             Image(systemName: "chevron.right.circle.fill")
                                 .resizable()
@@ -219,78 +214,84 @@ struct CharacterSetView: View
                         })
                         
                     }
-                    Button(action: {
-                        changeFace = ["bearFace1","bearFace2","bearFace3","bearFace4","bearFace5","bearFace6"].randomElement()!
-                        changeBody = ["bearBody1","bearBody2","bearBody3","bearBody4","bearBody5","bearBody6"].randomElement()!
-                        changeHair = ["bearHair1", "bearHair2", "bearHair3", "bearHair4", "bearHair5", "bearHair6", "bearHair7", "bearHair8"].randomElement()!
-                        uiImage = demoView.snapshot()
-                        //UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
-                    }, label: {
-                        Text("隨機")
-                    })
-                }
-                
-                
-            }
-            HStack{
-                Image("角色設定icon")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 50)
-                TextField("請輸入名稱",text:$characterName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .frame(width: 300)
-            }
-            HStack{
-                Image("角色設定icon")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 50)
-                //**tag/SegmentedPickerStyle() tag string
-                Picker(selection: $genderSelect, label: Text("性別")) {
-                    Text(gender[0]).tag("男")
-                    Text(gender[1]).tag("女")
                     
-                }.pickerStyle(SegmentedPickerStyle())
-                .frame(width: 300)
-                .shadow(radius: 5)
-                //Text("\(genderSelect)")
-                
-            }
-            Spacer()
-            Button(action:{//新增角色
-                createCharacter()
-                uiImage = demoView.snapshot()
-                UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
-                
-                uploadPhoto(image: uiImage!) { result in
-                    switch result {
-                    case .success(let url):
-                        setUserPhoto(url: url)
-                        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                    HStack{
+                        Image("角色設定icon")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 50)
+                        TextField("請輸入名稱",text:$characterName)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .frame(width: 300)
+                    }
+                    HStack{
+                        Image("角色設定icon")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 50)
                         
-                        changeRequest?.displayName = "\(characterName)"
-                        changeRequest?.commitChanges(completion: { error in
-                            guard error == nil else {
-                                print(error?.localizedDescription)
-                                return
-                            }
-                            goCharacterView = true
+                        Picker(selection: $genderSelect, label: Text("性別")) {
+                            Text(gender[0]).tag("男")
+                            Text(gender[1]).tag("女")
                             
-                        })
-                        //goCharacterView = true
-                        print("success")
+                        }.pickerStyle(SegmentedPickerStyle())
+                        .frame(width: 300)
+                        .shadow(radius: 5)
                         
-                    case .failure(let error):
-                        print(error)
                     }
                 }
                 
-            } , label: {
                 
-                Text("確定")
-                    .font(.largeTitle)
-            })
+            }
+            
+            Spacer()
+            HStack{
+                Button(action: {
+                    changeFace = ["bearFace1","bearFace2","bearFace3","bearFace4","bearFace5","bearFace6"].randomElement()!
+                    changeBody = ["bearBody1","bearBody2","bearBody3","bearBody4","bearBody5","bearBody6"].randomElement()!
+                    changeHair = ["bearHair1", "bearHair2", "bearHair3", "bearHair4", "bearHair5", "bearHair6", "bearHair7", "bearHair8"].randomElement()!
+                    uiImage = demoView.snapshot()
+                    
+                }, label: {
+                    Text("隨機")
+                        .font(.largeTitle)
+                })
+                Spacer()
+                Button(action:{
+                    createCharacter()
+                    uiImage = demoView.snapshot()
+                    UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
+                    
+                    uploadPhoto(image: uiImage!) { result in
+                        switch result {
+                        case .success(let url):
+                            setUserPhoto(url: url)
+                            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                            
+                            changeRequest?.displayName = "\(characterName)"
+                            changeRequest?.commitChanges(completion: { error in
+                                guard error == nil else {
+                                    print(error?.localizedDescription)
+                                    return
+                                }
+                                goCharacterView = true
+                                
+                            })
+                            print("success")
+                            
+                        case .failure(let error):
+                            print(error)
+                        }
+                    }
+                    
+                } , label: {
+                    
+                    Text("確定")
+                        .font(.largeTitle)
+                        .foregroundColor(.purple)
+                })
+            }.padding(EdgeInsets(top: 10, leading: 250, bottom: 5, trailing: 250))
+            
             
         }.onAppear(perform:{
             changeFace = "bearface1"
@@ -300,7 +301,7 @@ struct CharacterSetView: View
         }
         )
         .fullScreenCover(isPresented: $goCharacterView, content: {
-            CharacterView()
+            CharacterView(searchRoomName: "")
         })
         
         
@@ -309,6 +310,9 @@ struct CharacterSetView: View
 
 struct CharacterSetView_Previews: PreviewProvider {
     static var previews: some View {
-        CharacterSetView()
+        CharacterSetView(searchRoomName: "")
+            .previewLayout(.fixed(width: 844, height: 390))
+            .previewDevice("iPhone 11")
+            
     }
 }

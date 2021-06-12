@@ -50,6 +50,8 @@ struct TestView: View
     @State private var genderSelect = ""
     var gender = ["男", "女"]
     
+    @Binding var searchRoomName: String
+    
     
     
     func createCharacter() {//創造角色
@@ -302,7 +304,7 @@ struct TestView: View
         }
         )
         .fullScreenCover(isPresented: $goCharacterView, content: {
-            CharacterView()
+            CharacterView(searchRoomName: "")
         })
         
         
@@ -313,7 +315,7 @@ struct TestView: View
 
 struct TestView_Previews: PreviewProvider {
     static var previews: some View {
-        TestView()
+        TestView(searchRoomName: .constant(""))
     }
     
 }

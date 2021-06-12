@@ -1,9 +1,9 @@
 //
-//  StartView.swift
+//  FirstView.swift
 //  iOSFinal
 //
-//  Created by CK on 2021/5/5.
-//12341234@gmail.com 12341234
+//  Created by CK on 2021/6/7.
+//帳號test1234密碼12341234
 import SwiftUI
 import FirebaseAuth
 import FirebaseStorage
@@ -11,6 +11,7 @@ import FirebaseStorageSwift//要有swift的,才有result
 import Kingfisher
 import FirebaseFirestoreSwift
 import Firebase
+import AppTrackingTransparency
 
 struct Character: Codable, Identifiable {
     @DocumentID var id: String?
@@ -20,62 +21,40 @@ struct Character: Codable, Identifiable {
     
 }
 
-struct StartView: View {
-    /*func getCharacter() {//得到角色
-            let db = Firestore.firestore()
-            db.collection("songs").document("陪你很久很久").getDocument { document, error in
-                        
-                 guard let document = document,
-                       document.exists,
-                       let song = try? document.data(as: Song.self) else {
-                      return
-                 }
-                 print(song)
-                     
-            }
-    }
-    func createCharacter() {//創造角色
-            let db = Firestore.firestore()
-            
-            let song = Song(name: "陪你很久很久", singer: "小球", rate: 5)
-            do {
-                let documentReference = try db.collection("songs").addDocument(from: song)
-                do {
-                    try db.collection("UserData").document("陪你很久很久").setData(from: song)
-                } catch {
-                    print(error)
-                }
-                print(documentReference.documentID)
-            } catch {
-                print(error)
-            }
-    }*/
+struct FirstView: View {
     @State var goCharacterSet = false
     @State var goRegisterView = false
     @State var playerSignInMail: String
     @State var playerSignInPassword: String
     @State private var goCharacterView = false
+    @StateObject var authorization = Authorization()
+    
+    @State var searchRoomName: String
     
     var body: some View {
         VStack{
             VStack{
                 Text("Overcooked")
                     .font(.largeTitle)
-                Image("cook")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 300, height: 300)
-               
-                Form{
-                    Section(header: Text("使用者帳號(mail)"))
-                    {
-                        TextField("請輸入帳號",text:$playerSignInMail)
-                    }
-                    Section(header: Text("密碼"))
-                    {
-                        TextField("請輸入密碼",text:$playerSignInPassword)
+                HStack{
+                    Image("cook")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 200, height: 200)
+                    
+                   
+                    Form{
+                        Section(header: Text("使用者帳號(mail)"))
+                        {
+                            TextField("請輸入帳號",text:$playerSignInMail)
+                        }
+                        Section(header: Text("密碼"))
+                        {
+                            TextField("請輸入密碼",text:$playerSignInPassword)
+                        }
                     }
                 }
+                
                 HStack{
                     Button(action: {Auth.auth().signIn(withEmail: "\(playerSignInMail)", password: "\(playerSignInPassword)") { result, error in
                         guard error == nil else {
@@ -115,22 +94,24 @@ struct StartView: View {
             }
             
             
-        }/*(isPresented: $goRegisterView, content: {
-            RegisterView(playerRegisterMail: "", playerRegisterPassword: "")
-        })*/
-        EmptyView().sheet(isPresented: $goRegisterView, content: {
-            RegisterView(playerRegisterMail: "", playerRegisterPassword: "")
+        }.onAppear(perform: {
+            authorization.requestTracking()
         })
-        EmptyView().sheet(isPresented: $goCharacterSet, content:{CharacterSetView()})
-        EmptyView().sheet(isPresented: $goCharacterView, content:{CharacterView()})
+        EmptyView().sheet(isPresented: $goRegisterView, content: {
+            RegisterView(playerRegisterMail: "", playerRegisterPassword: "", searchRoomName: "")
+        })
+        EmptyView().sheet(isPresented: $goCharacterSet, content:{CharacterSetView(searchRoomName: "")})
+        EmptyView().sheet(isPresented: $goCharacterView, content:{CharacterView(searchRoomName: "")})
         
         
         
     }
 }
 
-struct StartView_Previews: PreviewProvider {
+struct FirstView_Previews: PreviewProvider {
     static var previews: some View {
-        StartView(playerSignInMail: "", playerSignInPassword: "")
+        FirstView(playerSignInMail: "", playerSignInPassword: "", searchRoomName: "")
+            .previewLayout(.fixed(width: 844, height: 390))
+            .previewDevice("iPhone 11")
     }
 }
