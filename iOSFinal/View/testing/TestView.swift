@@ -4,6 +4,7 @@
 //
 //  Created by CK on 2021/5/12.
 //
+/*
 import SwiftUI
 import FirebaseAuth
 import FirebaseStorage
@@ -304,7 +305,7 @@ struct TestView: View
         }
         )
         .fullScreenCover(isPresented: $goCharacterView, content: {
-            CharacterView(searchRoomName: "")
+            CharacterView(roomName: "", searchRoomPassword: "", crearhRoomPassword: "")
         })
         
         
@@ -319,3 +320,4 @@ struct TestView_Previews: PreviewProvider {
     }
     
 }
+ */*/

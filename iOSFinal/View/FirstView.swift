@@ -3,7 +3,10 @@
 //  iOSFinal
 //
 //  Created by CK on 2021/6/7.
-//帳號test1234密碼12341234
+//帳號Test1234@gmail.com密碼12341234
+//帳號Test2222@gmail.com密碼22222222
+//帳號Test0000@gmail.com密碼00000000
+
 import SwiftUI
 import FirebaseAuth
 import FirebaseStorage
@@ -13,13 +16,6 @@ import FirebaseFirestoreSwift
 import Firebase
 import AppTrackingTransparency
 
-struct Character: Codable, Identifiable {
-    @DocumentID var id: String?
-    let name: String
-    let gender: String
-    let start : Int
-    
-}
 
 struct FirstView: View {
     @State var goCharacterSet = false
@@ -101,7 +97,7 @@ struct FirstView: View {
             RegisterView(playerRegisterMail: "", playerRegisterPassword: "", searchRoomName: "")
         })
         EmptyView().sheet(isPresented: $goCharacterSet, content:{CharacterSetView(searchRoomName: "")})
-        EmptyView().sheet(isPresented: $goCharacterView, content:{CharacterView(searchRoomName: "")})
+        EmptyView().sheet(isPresented: $goCharacterView, content:{CharacterView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")})
         
         
         

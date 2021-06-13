@@ -15,3 +15,20 @@ struct Location: Codable, Identifiable {
     var x: CGFloat
     var y: CGFloat
 }
+/*
+struct Character: Codable, Identifiable {
+    @DocumentID var id: String?
+    let name: String
+    let gender: String
+    let coins : Int
+    
+}*/
+struct PlayerData: Codable, Identifiable {
+    @DocumentID var id: String?
+    let name: String
+    let URLString :URL
+    let action:String
+    var x : Int
+    var y :Int
+    var coin:Int
+}

@@ -22,7 +22,7 @@ import FirebaseFirestoreSwift
 
 struct Test0609View: View {
     
-    func setLocation(location: Location) {//更新狀態
+    func setLocation2(location: Location) {//更新狀態
         let db = Firestore.firestore()
             
         do {
@@ -46,7 +46,7 @@ struct Test0609View: View {
             Button(action: {
                 
                 offset.width += 5
-                setLocation(location: Location(name: "Bonny", x: offset.width, y: offset.height))
+                setLocation2(location: Location(name: "Bonny", x: offset.width, y: offset.height))
                 
             }, label: {
                 Image(systemName: "chevron.right.circle.fill")
@@ -57,7 +57,7 @@ struct Test0609View: View {
             Button(action: {
                 
                 offset.height -= 5
-                setLocation(location: Location(name: "Bonny", x: offset.width, y: offset.height))
+                setLocation2(location: Location(name: "Bonny", x: offset.width, y: offset.height))
 
             }, label: {
                 Image(systemName: "chevron.up.circle.fill")

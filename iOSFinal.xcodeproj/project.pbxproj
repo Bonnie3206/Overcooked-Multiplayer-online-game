@@ -10,6 +10,10 @@
 		147814C12E77E95B1310B9AA /* Pods_iOSFinal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08CAE083FE7204BFCC1C33F3 /* Pods_iOSFinal.framework */; };
 		431DC68F2675082E0002213F /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DC68E2675082E0002213F /* Character.swift */; };
 		431DC691267508960002213F /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DC690267508960002213F /* Map.swift */; };
+		431DC6932675359D0002213F /* MapSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DC6922675359D0002213F /* MapSetting.swift */; };
+		431DC695267618D50002213F /* Test0613View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DC694267618D50002213F /* Test0613View.swift */; };
+		431DC69726765B270002213F /* CharacterSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DC69626765B260002213F /* CharacterSetting.swift */; };
+		431DC699267694D40002213F /* test0614.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DC698267694D30002213F /* test0614.swift */; };
 		432C38C626269EE900BAAEE8 /* iOSFinalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C38C526269EE900BAAEE8 /* iOSFinalApp.swift */; };
 		432C38C826269EE900BAAEE8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C38C726269EE900BAAEE8 /* ContentView.swift */; };
 		432C38CA26269EED00BAAEE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 432C38C926269EED00BAAEE8 /* Assets.xcassets */; };
@@ -30,8 +34,6 @@
 		439A229C266E64030056F34E /* FirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A229B266E64030056F34E /* FirstView.swift */; };
 		439A229E266E64A60056F34E /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A229D266E64A60056F34E /* Authorization.swift */; };
 		439A22A1266E6CF20056F34E /* WaitingRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A22A0266E6CF20056F34E /* WaitingRoomView.swift */; };
-		439A22A3266E6DC90056F34E /* RoomBuildingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A22A2266E6DC90056F34E /* RoomBuildingView.swift */; };
-		439A22A5266E6DDA0056F34E /* RoomSearchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A22A4266E6DDA0056F34E /* RoomSearchingView.swift */; };
 		439A22A726706EC10056F34E /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A22A626706EC00056F34E /* GameView.swift */; };
 		439A22A926707AD80056F34E /* SecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A22A826707AD80056F34E /* SecondView.swift */; };
 		439A22AC2670843B0056F34E /* Test0609View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A22AB2670843B0056F34E /* Test0609View.swift */; };
@@ -44,6 +46,10 @@
 		08CAE083FE7204BFCC1C33F3 /* Pods_iOSFinal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSFinal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		431DC68E2675082E0002213F /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		431DC690267508960002213F /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		431DC6922675359D0002213F /* MapSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSetting.swift; sourceTree = "<group>"; };
+		431DC694267618D50002213F /* Test0613View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test0613View.swift; sourceTree = "<group>"; };
+		431DC69626765B260002213F /* CharacterSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSetting.swift; sourceTree = "<group>"; };
+		431DC698267694D30002213F /* test0614.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test0614.swift; sourceTree = "<group>"; };
 		432C38C226269EE900BAAEE8 /* iOSFinal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSFinal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		432C38C526269EE900BAAEE8 /* iOSFinalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSFinalApp.swift; sourceTree = "<group>"; };
 		432C38C726269EE900BAAEE8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,8 +69,6 @@
 		439A229B266E64030056F34E /* FirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstView.swift; sourceTree = "<group>"; };
 		439A229D266E64A60056F34E /* Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
 		439A22A0266E6CF20056F34E /* WaitingRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingRoomView.swift; sourceTree = "<group>"; };
-		439A22A2266E6DC90056F34E /* RoomBuildingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomBuildingView.swift; sourceTree = "<group>"; };
-		439A22A4266E6DDA0056F34E /* RoomSearchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSearchingView.swift; sourceTree = "<group>"; };
 		439A22A626706EC00056F34E /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		439A22A826707AD80056F34E /* SecondView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondView.swift; sourceTree = "<group>"; };
 		439A22AB2670843B0056F34E /* Test0609View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test0609View.swift; sourceTree = "<group>"; };
@@ -99,25 +103,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		431DC68B267506340002213F /* characterSet */ = {
-			isa = PBXGroup;
-			children = (
-				437A0F5C264846CA0028B397 /* CharacterView.swift */,
-				437A0F462642245D0028B397 /* CharacterSetView.swift */,
-			);
-			path = characterSet;
-			sourceTree = "<group>";
-		};
-		431DC68C2675067A0002213F /* room */ = {
-			isa = PBXGroup;
-			children = (
-				439A22A4266E6DDA0056F34E /* RoomSearchingView.swift */,
-				439A22A0266E6CF20056F34E /* WaitingRoomView.swift */,
-				439A22A2266E6DC90056F34E /* RoomBuildingView.swift */,
-			);
-			path = room;
-			sourceTree = "<group>";
-		};
 		432C38B926269EE900BAAEE8 = {
 			isa = PBXGroup;
 			children = (
@@ -142,8 +127,8 @@
 				43A3856D265E6CA1009554A2 /* GoogleService-Info.plist */,
 				432C38C526269EE900BAAEE8 /* iOSFinalApp.swift */,
 				43A3857426676155009554A2 /* View */,
-				43A3857726676236009554A2 /* Models */,
 				43A385752667615F009554A2 /* ViewModels */,
+				43A3857726676236009554A2 /* Models */,
 				432C38C926269EED00BAAEE8 /* Assets.xcassets */,
 				432C38CE26269EED00BAAEE8 /* Info.plist */,
 				43941F792654BAA3007EA777 /* Localizable.strings */,
@@ -165,10 +150,10 @@
 			isa = PBXGroup;
 			children = (
 				43941F74264BFE1E007EA777 /* TestView.swift */,
+				431DC694267618D50002213F /* Test0613View.swift */,
 				43A38572266760F7009554A2 /* ErrorView.swift */,
 				439A22A826707AD80056F34E /* SecondView.swift */,
 				439A22AB2670843B0056F34E /* Test0609View.swift */,
-				439A22A626706EC00056F34E /* GameView.swift */,
 			);
 			path = testing;
 			sourceTree = "<group>";
@@ -176,11 +161,14 @@
 		43A3857426676155009554A2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				439A229B266E64030056F34E /* FirstView.swift */,
 				432C38C726269EE900BAAEE8 /* ContentView.swift */,
+				439A229B266E64030056F34E /* FirstView.swift */,
 				437A0F402641B1FC0028B397 /* RegisterView.swift */,
-				431DC68B267506340002213F /* characterSet */,
-				431DC68C2675067A0002213F /* room */,
+				437A0F462642245D0028B397 /* CharacterSetView.swift */,
+				437A0F5C264846CA0028B397 /* CharacterView.swift */,
+				439A22A0266E6CF20056F34E /* WaitingRoomView.swift */,
+				431DC698267694D30002213F /* test0614.swift */,
+				439A22A626706EC00056F34E /* GameView.swift */,
 				439A22AA267084250056F34E /* testing */,
 			);
 			path = View;
@@ -189,6 +177,10 @@
 		43A385752667615F009554A2 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				439A229D266E64A60056F34E /* Authorization.swift */,
+				432C38E42626A51900BAAEE8 /* appDelegate.swift */,
+				431DC69626765B260002213F /* CharacterSetting.swift */,
+				431DC6922675359D0002213F /* MapSetting.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -197,8 +189,6 @@
 			isa = PBXGroup;
 			children = (
 				43941FFD265E03C2007EA777 /* UIViewController+Extension.swift */,
-				439A229D266E64A60056F34E /* Authorization.swift */,
-				432C38E42626A51900BAAEE8 /* appDelegate.swift */,
 				437A0F59264843EF0028B397 /* FirebaseSet.swift */,
 				431DC68E2675082E0002213F /* Character.swift */,
 				431DC690267508960002213F /* Map.swift */,
@@ -368,19 +358,21 @@
 				439A229E266E64A60056F34E /* Authorization.swift in Sources */,
 				439A229C266E64030056F34E /* FirstView.swift in Sources */,
 				437A0F472642245D0028B397 /* CharacterSetView.swift in Sources */,
+				431DC69726765B270002213F /* CharacterSetting.swift in Sources */,
 				439A22A1266E6CF20056F34E /* WaitingRoomView.swift in Sources */,
 				437A0F5A264843EF0028B397 /* FirebaseSet.swift in Sources */,
-				439A22A5266E6DDA0056F34E /* RoomSearchingView.swift in Sources */,
+				431DC6932675359D0002213F /* MapSetting.swift in Sources */,
 				437A0F412641B1FC0028B397 /* RegisterView.swift in Sources */,
 				432C38E52626A51900BAAEE8 /* appDelegate.swift in Sources */,
 				43941F75264BFE1E007EA777 /* TestView.swift in Sources */,
+				431DC695267618D50002213F /* Test0613View.swift in Sources */,
 				431DC691267508960002213F /* Map.swift in Sources */,
 				437A0F5D264846CA0028B397 /* CharacterView.swift in Sources */,
+				431DC699267694D40002213F /* test0614.swift in Sources */,
 				43941FFE265E03C3007EA777 /* UIViewController+Extension.swift in Sources */,
 				432C38C626269EE900BAAEE8 /* iOSFinalApp.swift in Sources */,
 				43A38573266760F7009554A2 /* ErrorView.swift in Sources */,
 				439A22A726706EC10056F34E /* GameView.swift in Sources */,
-				439A22A3266E6DC90056F34E /* RoomBuildingView.swift in Sources */,
 				439A22A926707AD80056F34E /* SecondView.swift in Sources */,
 				439A22AC2670843B0056F34E /* Test0609View.swift in Sources */,
 				431DC68F2675082E0002213F /* Character.swift in Sources */,

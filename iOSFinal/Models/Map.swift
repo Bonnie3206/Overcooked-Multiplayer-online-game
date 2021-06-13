@@ -14,8 +14,16 @@ struct WaitingRoom: Codable, Identifiable {
     let name : String
     var password: String
     var start: Bool
+    var player1:String
+    var player2:String
+    var player3:String
+    var quantity: Int
+    var preparedQuantity:Int
+    
 }
 struct Map: Codable, Identifiable {
     @DocumentID var id: String?
     var quantity: Int
+    var preparedQuantity:Int
 }
+

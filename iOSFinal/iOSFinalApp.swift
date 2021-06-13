@@ -23,16 +23,15 @@ struct iOSFinalApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
-            //TestView()
-            //FirstView(playerSignInMail: "", playerSignInPassword: "")
-            //CharacterSetView()
-            //CharacterView()
-            //ContentView()
-            //ErrorView()
-            //GameView()
             //Test0609View()
+            FirstView(playerSignInMail: "", playerSignInPassword: "", searchRoomName: "")
+            //CharacterSetView()
+            //CharacterView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")
+            //GameView(roomDocumentName: "")
             //SecondView()
-            RoomSearchingView(searchRoomName:"")
+            //WaitingRoomView(searchRoomName: "", creatRoomName: "", crearhRoomPassword: "", roomDocumentName: "")
+            //Test0613View()
+            //test0614()
         }
     }
 }

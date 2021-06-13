@@ -46,20 +46,25 @@ struct CharacterSetView: View
     @State private var faceTotal = 11
     @State private var characterName = ""
     @State private var genderSelect = ""
+    @State private var action = ""
+    
+    @State private var URLString=URL(string: "")
+    @State private var currentUser = Auth.auth().currentUser
+    @State private var userPhotoURL = URL(string: "")
+    
+    
     var gender = ["男", "女"]
     
     @State var searchRoomName: String
-    
-    
-    
+    /*
     func createCharacter() {
         let db = Firestore.firestore()
-        
-        let userData = Character(name: characterName, gender: genderSelect,start: 0 )
+        //name: characterName, gender: genderSelect,coins: 0
+        let userData = PlayerData(name: characterName,URL: uiImage,action:"",x : 0, y :0,coin:0)
         do {
             let documentReference = try db.collection("UserData").addDocument(from: userData)
             do {
-                try db.collection("UserData").document(characterName).setData(from: userData)
+                try db.collection("UserData").document("\(characterName)").setData(from: userData)
                 
             } catch {
                 print(error)
@@ -68,7 +73,7 @@ struct CharacterSetView: View
         } catch {
             print(error)
         }
-    }
+    }*/
     
     var demoView: some View {
         ZStack{
@@ -258,7 +263,7 @@ struct CharacterSetView: View
                 })
                 Spacer()
                 Button(action:{
-                    createCharacter()
+                    
                     uiImage = demoView.snapshot()
                     UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
                     
@@ -274,6 +279,8 @@ struct CharacterSetView: View
                                     print(error?.localizedDescription)
                                     return
                                 }
+                                URLString = currentUser?.photoURL
+                                createCharacter(name: characterName, URLString: URLString!,action: "", x: 0, y: 0, coin: 0)
                                 goCharacterView = true
                                 
                             })
@@ -283,6 +290,8 @@ struct CharacterSetView: View
                             print(error)
                         }
                     }
+                    
+                    
                     
                 } , label: {
                     
@@ -301,7 +310,7 @@ struct CharacterSetView: View
         }
         )
         .fullScreenCover(isPresented: $goCharacterView, content: {
-            CharacterView(searchRoomName: "")
+            CharacterView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")
         })
         
         
