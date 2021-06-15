@@ -1,10 +1,12 @@
 //
-//  CharacterView.swift
+//  EnterRoomView.swift
 //  iOSFinal
 //
-//  Created by CK on 2021/5/10.
+//  Created by CK on 2021/6/16.
+//
 
-//func : 1.showCharacter2. search&buildingRoom
+import SwiftUI
+
 import SwiftUI
 import FirebaseAuth
 import FirebaseStorage
@@ -16,7 +18,7 @@ import Firebase
  print(user.uid, user.email, user.displayName, user.photoURL)
  }*/
 
-struct CharacterView: View {
+struct EnterRoomView: View {
     
     @State private var currentUser = Auth.auth().currentUser
     @State private var userPhotoURL = URL(string: "")
@@ -38,7 +40,7 @@ struct CharacterView: View {
     @State var searchRoomPassword: String
     @State var crearhRoomPassword: String
     
-    //@State var showURL: String =""
+    @State var turnURLString: String = ""
     
     
     
@@ -78,23 +80,24 @@ struct CharacterView: View {
                     
                     Button(action:
                     {
-                        /*
-                        if let user = Auth.auth().currentUser {
-                            print(user.uid, user.email, user.displayName, user.photoURL)
-                        }*/
-                        createRoom(name:creatRoomName,password:crearhRoomPassword,start:true,player1: "\(userName)",player2: "",player3: "",quantity:0,preparedQuantity:0)
+                        createRoom(name:creatRoomName,password:crearhRoomPassword,start:true,player1: "\(userName)",player2: "",player3: "",quantity:1,preparedQuantity:0,URL_player1 :"\(turnURLString)",URL_player2 :"",URL_player3 :"")
                         roomName = creatRoomName
                         goWaitingRoom = true
                     }
                         , label: {
                             Text("創建房間")
-                                .font(.largeTitle)
+                                .padding(7)
+                                .padding(.horizontal, 25)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .padding(.horizontal, 10)
+                            
                     })
                 }
                 VStack{
                     //search
                     Form{
-                        Section(header: Text("搜尋房間"))
+                        Section(header: Text("進入房間"))
                         {
                             TextField("房間名稱",text:$SearchRoomName)
                         }
@@ -121,6 +124,7 @@ struct CharacterView: View {
                                     print("searchRoomName:\(roomName)")
                                     
                                  } else {//要先取得id才能找到該密碼
+                                    
                                     db.collection("waitingRoom").whereField("password", isEqualTo: "\(searchRoomPassword)").getDocuments { snapshot, error in
                                         guard let snapshot = snapshot else { return }
                                              if snapshot.documents.isEmpty  {
@@ -132,10 +136,9 @@ struct CharacterView: View {
                                                 
                                                 print("success")
                                                 roomName = SearchRoomName
-                                                ModifyChararcterName(roomName:roomName,name:userName)
+                                                //saveURLtoRoom(roomName:roomName,URLSting:String(userPhotoURL))
+                                                ModifyChararcterName(roomName:roomName,name:userName, URLSting: turnURLString)
                                                 goWaitingRoom = true
-                                                
-                                                    
                                              }
                                     }
                                  }
@@ -151,7 +154,10 @@ struct CharacterView: View {
             perform:{
                 //取得角色資訊
                 userPhotoURL = (currentUser?.photoURL)
+                turnURLString = userPhotoURL!.absoluteString
+                
                 print("myurl\(currentUser?.photoURL)")
+                print("turnURLString:\(turnURLString)")
                 if let user = Auth.auth().currentUser {
                     
                     userName = user.displayName ?? "nil"
@@ -165,9 +171,9 @@ struct CharacterView: View {
     }
 }
 
-struct CharacterView_Previews: PreviewProvider {
+struct EnterRoomView_Previews: PreviewProvider {
     static var previews: some View {
-        CharacterView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")
+        EnterRoomView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")
             .previewLayout(.fixed(width: 844, height: 390))
             .previewDevice("iPhone 11")
     }

@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct WaitingRoom: Codable, Identifiable {
+struct RoomState: Codable, Identifiable {
     @DocumentID var id: String?
     let name : String
     var password: String
@@ -19,6 +19,11 @@ struct WaitingRoom: Codable, Identifiable {
     var player3:String
     var quantity: Int
     var preparedQuantity:Int
+    
+    var URL_player1 :String
+    var URL_player2:String
+    var URL_player3 :String
+ 
     
 }
 struct Map: Codable, Identifiable {

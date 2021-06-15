@@ -280,7 +280,9 @@ struct CharacterSetView: View
                                     return
                                 }
                                 URLString = currentUser?.photoURL
+                                
                                 createCharacter(name: characterName, URLString: URLString!,action: "", x: 0, y: 0, coin: 0)
+                                //寫入URLTurnToString
                                 goCharacterView = true
                                 
                             })
@@ -310,7 +312,7 @@ struct CharacterSetView: View
         }
         )
         .fullScreenCover(isPresented: $goCharacterView, content: {
-            CharacterView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")
+            EnterRoomView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")
         })
         
         

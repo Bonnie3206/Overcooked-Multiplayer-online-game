@@ -14,6 +14,7 @@
 //4.font book
 //5.tag okk
 //圖檔轉png
+// 問題 1.firebase讀完值之前已給予值
 
 
 import SwiftUI
@@ -23,15 +24,14 @@ struct iOSFinalApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
-            //Test0609View()
             FirstView(playerSignInMail: "", playerSignInPassword: "", searchRoomName: "")
             //CharacterSetView()
-            //CharacterView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")
+            //EnterRoomView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")
             //GameView(roomDocumentName: "")
-            //SecondView()
             //WaitingRoomView(searchRoomName: "", creatRoomName: "", crearhRoomPassword: "", roomDocumentName: "")
             //Test0613View()
             //test0614()
+            //Test0616_2()
         }
     }
 }

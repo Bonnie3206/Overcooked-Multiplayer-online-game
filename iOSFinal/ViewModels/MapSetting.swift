@@ -12,10 +12,10 @@ import Kingfisher
 import FirebaseFirestoreSwift
 import Firebase
 
-func createRoom(name:String,password:String,start:Bool,player1:String, player2:String,player3:String,quantity: Int,preparedQuantity:Int) {
+func createRoom(name:String,password:String,start:Bool,player1:String, player2:String,player3:String,quantity: Int,preparedQuantity:Int,URL_player1 :String,URL_player2 :String,URL_player3 :String) {
             let db = Firestore.firestore()
             
-    let creatingRoom = WaitingRoom(name:name, password:password, start: start,player1 :player1,player2 :player2, player3: player3,quantity:quantity, preparedQuantity:preparedQuantity)
+    let creatingRoom = RoomState(name:name, password:password, start: start,player1 :player1,player2 :player2, player3: player3,quantity:quantity, preparedQuantity:preparedQuantity,URL_player1 :URL_player1,URL_player2 :URL_player2,URL_player3 :URL_player3)
         
             do {
                 try db.collection("waitingRoom").document("\(name)").setData(from: creatingRoom)
@@ -42,7 +42,7 @@ func addPreparedQuantity(room:String) {
                         
           guard let document = document,
                 document.exists,
-                var room = try? document.data(as: WaitingRoom.self)
+                var room = try? document.data(as: RoomState.self)
           else {
                     return
           }
@@ -63,7 +63,7 @@ func minusPreparedQuantity(room:String) {
                     
       guard let document = document,
             document.exists,
-            var room = try? document.data(as: WaitingRoom.self)
+            var room = try? document.data(as: RoomState.self)
       else {
                 return
       }
@@ -84,7 +84,7 @@ func addQuantity(room:String) {//因firebase更新速度問題無法同時使用
                     
       guard let document = document,
             document.exists,
-            var room = try? document.data(as: WaitingRoom.self)
+            var room = try? document.data(as: RoomState.self)
       else {
                 return
       }

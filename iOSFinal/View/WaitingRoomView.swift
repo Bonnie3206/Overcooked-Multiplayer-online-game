@@ -30,16 +30,10 @@ struct WaitingRoomView: View {
     @State private var showPlayer1 : String = ""
     @State private var showPlayer2 : String = ""
     @State private var showPlayer3 : String = ""
-    /*
-    let showURL_Player1 = URL(string: "https://firebasestorage.googleapis.com/v0/b/final2-3da54.appspot.com/o/E1124AF6-2BE6-48F3-B878-EA7F620826EF.jpg?alt=media&token=fda505dc-e90f-49ee-be33-176983c80612")!*/
-    @State private var url = URL(string: "")
     
-    @State private var url2 = URL(string: "https://firebasestorage.googleapis.com/v0/b/final2-3da54.appspot.com/o/0642024A-069D-4D60-8A66-CDAD6F0DB5D3.jpg?alt=media&token=595b5aa6-ed87-486b-a4cb-deb6afc6f60b")!
-    let url3 = URL(string: "https://firebasestorage.googleapis.com/v0/b/final2-3da54.appspot.com/o/E1124AF6-2BE6-48F3-B878-EA7F620826EF.jpg?alt=media&token=fda505dc-e90f-49ee-be33-176983c80612")!
-    @State private var showURL_Player1 :String = ""
-    let url11 = URL(string: "showURL_Player1")
-    @State private var showURL_Player2 = URL(string: "")
-    @State private var showURL_Player3 = URL(string: "")
+    @State private var URLString_Player1 : String = ""
+    @State private var URLString_Player2 : String = ""
+    @State private var URLString_Player3 : String = ""
     
     @State var searchRoomName: String
     @State var creatRoomName: String
@@ -52,10 +46,7 @@ struct WaitingRoomView: View {
     
     @State var goGameView = false
     @State var showEnterGameError = false
-    
-    @State var photo1 :String = ""
-    @State var photo2 :String = ""
-    @State var photo3 :String = ""
+        
     
     var body: some View {
         
@@ -69,31 +60,33 @@ struct WaitingRoomView: View {
             }
             HStack{
                 VStack{
-                    /*
-                    KFImage(url11)
+                    
+                    KFImage(URL(string: "\(URLString_Player1)"))
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 150, height: 180)*/
+                        .frame(width: 150, height: 180)
+                    /*
                     Image("\(photo1)")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 150, height: 180)
+ */
                     HStack{
                         Text("\(showPlayer1)")
                             .font(.largeTitle)
                     }
                 }
                 VStack{
+                    KFImage(URL(string: "\(URLString_Player2)"))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 150, height: 180)
                     /*
-                    KFImage(url2)
+                    Image("\(photo1)")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 150, height: 180)
  */
-                    Image("\(photo2)")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 180)
                     
                     HStack{
                         Text("\(showPlayer2)")
@@ -101,16 +94,16 @@ struct WaitingRoomView: View {
                     }
                 }
                 VStack{
+                    KFImage(URL(string: "\(URLString_Player3)"))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 150, height: 180)
                     /*
-                    KFImage(url3)
+                    Image("\(photo1)")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 150, height: 180)
-                    */
-                    Image("\(photo3)")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 180)
+ */
                     HStack{
                         Text("\(showPlayer3)")
                             .font(.largeTitle)
@@ -119,6 +112,7 @@ struct WaitingRoomView: View {
                 
             }
             HStack{
+                
                 Button(action: {
                     GamePrepared.toggle()
                     if GamePrepared == true{
@@ -153,7 +147,7 @@ struct WaitingRoomView: View {
         }
         .onAppear(
             perform:{
-                
+               
                 //取得角色資訊
                 userPhotoURL = (currentUser?.photoURL)
                 if let user = Auth.auth().currentUser {
@@ -161,36 +155,38 @@ struct WaitingRoomView: View {
                 }
                 //
                 let db = Firestore.firestore()
+                let db2 = Firestore.firestore()
+                //let db3 = Firestore.firestore()
                 //監聽room性質
+                
                 db.collection("waitingRoom").document("\(roomDocumentName)").addSnapshotListener { snapshot, error in
                     
                     guard let snapshot = snapshot else { return }
-                    guard let room = try? snapshot.data(as: WaitingRoom.self) else { return }
+                    guard let room = try? snapshot.data(as: RoomState.self) else { return }
                     showRoomName = String(room.name)
                     showRoomPassword = String(room.password)
                     showRoomStart = Bool(room.start)
+                    
                     showRoomQuantity = Int(room.quantity)
-                    
-                    print("hi\(showRoomQuantity)")
                     showPreparedQuantity = Int(room.preparedQuantity)
+                    
                     showPlayer1 = String(room.player1)
-                    photo1 = String(room.player1)
                     showPlayer2 = String(room.player2)
-                    photo2 = String(room.player2)
                     showPlayer3 = String(room.player3)
-                    photo3 = String(room.player3)
                     
-                }/*
-                //取userData得Player1的url
-                db.collection("UserData").document("\(showPlayer1)").addSnapshotListener { snapshot, error in
+                    URLString_Player1 = String(room.URL_player1)
+                    URLString_Player2 = String(room.URL_player2)
+                    URLString_Player3 = String(room.URL_player3)
                     
-                    guard let snapshot = snapshot else { return }
-                    guard let userData = try? snapshot.data(as: PlayerData.self) else { return }
-                    showURL_Player1 = String(contentsOf: userData.URLString)
-                    print("showURL_Player1:\(showURL_Player1)")
+                    print("room.URL_player1 :\(room.URL_player1)")
+                    print("room.URL_player2 :\(room.URL_player2)")
+                    print("room.URL_player3 :\(room.URL_player3)")
                     
                 }
- 
+                
+                //取userData得Player1的url
+                
+ /*
                 //取userData得Player2的url
                 db.collection("UserData").document("\(showPlayer2)").addSnapshotListener { snapshot, error in
                     

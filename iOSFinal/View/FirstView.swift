@@ -97,7 +97,7 @@ struct FirstView: View {
             RegisterView(playerRegisterMail: "", playerRegisterPassword: "", searchRoomName: "")
         })
         EmptyView().sheet(isPresented: $goCharacterSet, content:{CharacterSetView(searchRoomName: "")})
-        EmptyView().sheet(isPresented: $goCharacterView, content:{CharacterView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")})
+        EmptyView().sheet(isPresented: $goCharacterView, content:{EnterRoomView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")})
         
         
         

@@ -15,14 +15,7 @@ struct Location: Codable, Identifiable {
     var x: CGFloat
     var y: CGFloat
 }
-/*
-struct Character: Codable, Identifiable {
-    @DocumentID var id: String?
-    let name: String
-    let gender: String
-    let coins : Int
-    
-}*/
+
 struct PlayerData: Codable, Identifiable {
     @DocumentID var id: String?
     let name: String
