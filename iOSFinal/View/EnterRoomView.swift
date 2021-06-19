@@ -145,8 +145,11 @@ struct EnterRoomView: View {
                         }
                     }, label: {
                             Text("搜尋房間")
-                                .font(.largeTitle)
-                                .bold()
+                                .padding(7)
+                                .padding(.horizontal, 25)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .padding(.horizontal, 10)
                     })
                 }
             }

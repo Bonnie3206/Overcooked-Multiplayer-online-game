@@ -25,3 +25,17 @@ struct PlayerData: Codable, Identifiable {
     var y :Int
     var coin:Int
 }
+struct Cooking: Codable, Identifiable {
+    @DocumentID var id: String?
+    
+    var vegetableNum : Int = 0
+    var tomatoNum :Int = 0
+    var finishedOrder :Int = 0
+}
+struct Order: Codable, Identifiable {
+    @DocumentID var id: String?
+    
+    var vegetableNum : Int = 0
+    var tomatoNum :Int = 0
+    var finishedOrder :Int = 0
+}

@@ -24,14 +24,13 @@ struct iOSFinalApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
-            FirstView(playerSignInMail: "", playerSignInPassword: "", searchRoomName: "")
+            //FirstView(playerSignInMail: "", playerSignInPassword: "", searchRoomName: "")
             //CharacterSetView()
             //EnterRoomView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")
-            //GameView(roomDocumentName: "")
+            GameView(roomDocumentName: .constant("Room2"))
+            //Test0617View()
             //WaitingRoomView(searchRoomName: "", creatRoomName: "", crearhRoomPassword: "", roomDocumentName: "")
-            //Test0613View()
-            //test0614()
-            //Test0616_2()
+            //shuffleView()
         }
     }
 }

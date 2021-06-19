@@ -98,26 +98,27 @@ func addQuantity(room:String) {//因firebase更新速度問題無法同時使用
                     
     }
 }
-func minusQuantity() {
-        let db = Firestore.firestore()
-        let documentReference =
-            db.collection("map").document("room")
-        documentReference.getDocument { document, error in
-                        
-          guard let document = document,
-                document.exists,
-                var map = try? document.data(as: Map.self)
-          else {
-                    return
-          }
-            map.quantity -= 1
-          do {
-             try documentReference.setData(from: map)
-          } catch {
-             print(error)
-          }
-                        
-        }
+func minusQuantity(room:String) {//因firebase更新速度問題無法同時使用,此功能寫在ModifyChararcterName內
+    let db = Firestore.firestore()
+    let documentReference =
+        db.collection("waitingRoom").document("\(room)")
+    documentReference.getDocument { document, error in
+                    
+      guard let document = document,
+            document.exists,
+            var room = try? document.data(as: RoomState.self)
+      else {
+                return
+      }
+        room.quantity-=1
+        print("minusQuantity")
+      do {
+         try documentReference.setData(from: room)
+      } catch {
+         print(error)
+      }
+                    
+    }
 }
 func setLocation(location: Location) {//更新狀態 沒用到
     let db = Firestore.firestore()
@@ -140,24 +141,36 @@ func getLocation(userName:String){//取得位置
     }
 
 }*/
+/*
+//水果有六個點 人就是自己而已 
+//是否相交
+func judgeIntersection(objectX: CGFloat, objectY: CGFloat, wordIndex: Int)->Int{
+    let objectRect = CGRect(x: objectX, y: objectY, width: 100, height: 100)
+    for index in (0..<answers[num-1].count){
+        print(answers[num-1].count)
+        //print("c\(wordIndex)")
+        let targetRect = CGRect(x: qaData.nowAnswerFrameX[index], y: qaData.nowAnswerFrameY[index], width: 100, height: 100)
+        print("\(index),\(qaData.answerFrame[index].origin.x),\(qaData.answerFrame[index].origin.y)")
+        let interRect = objectRect.intersection(targetRect)
+        if(interRect.width>=1 || interRect.height>=1){
+            if(answers[num-1][index].isEqual(questions[num][wordIndex])){
+                
+                print("correct\(index)")
+                print("correctNum\(correctNum)")
+                
+                return index
+            }//放對位置
+            else{
+                return 200//放錯
+            }
+            
+        }
+    }
+    
+    return 100//沒放到
+    
+}*/
 
-//no use
-func fetchPlayers() {//no use
-    let db = Firestore.firestore()
-    db.collection("location").getDocuments { snapshot, error in
-            
-         guard let snapshot = snapshot else { return }
-        
-         let location = snapshot.documents.compactMap { snapshot in
-             try? snapshot.data(as: Location.self)
-         }
-        //print(location.first?.name)
-        
-        print(location)
-        //print(location)
-        
-            
-     }
-}
+
 
 
