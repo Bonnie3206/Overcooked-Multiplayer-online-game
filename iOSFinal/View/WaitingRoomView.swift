@@ -47,9 +47,6 @@ struct WaitingRoomView: View {
     @State var goGameView = false
     @State var showEnterGameError = false
     
-    //@State var goGameView = false
-        
-    
     var body: some View {
         
         

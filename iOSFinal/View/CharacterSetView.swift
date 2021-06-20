@@ -56,24 +56,7 @@ struct CharacterSetView: View
     var gender = ["男", "女"]
     
     @State var searchRoomName: String
-    /*
-    func createCharacter() {
-        let db = Firestore.firestore()
-        //name: characterName, gender: genderSelect,coins: 0
-        let userData = PlayerData(name: characterName,URL: uiImage,action:"",x : 0, y :0,coin:0)
-        do {
-            let documentReference = try db.collection("UserData").addDocument(from: userData)
-            do {
-                try db.collection("UserData").document("\(characterName)").setData(from: userData)
-                
-            } catch {
-                print(error)
-            }
-            print(documentReference.documentID)
-        } catch {
-            print(error)
-        }
-    }*/
+    
     
     var demoView: some View {
         ZStack{
@@ -281,7 +264,7 @@ struct CharacterSetView: View
                                 }
                                 URLString = currentUser?.photoURL
                                 
-                                createCharacter(name: characterName, URLString: URLString!,action: "", x: 0, y: 0, coin: 0)
+                                createCharacter(name: characterName, URLString: URLString!,bestCoin_map1:0, coin: 0)
                                 //寫入URLTurnToString
                                 goCharacterView = true
                                 

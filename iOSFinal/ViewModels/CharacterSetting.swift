@@ -12,39 +12,28 @@ import Kingfisher
 import FirebaseFirestoreSwift
 import Firebase
 
-func createCharacter(name:String,URLString:URL,action:String,x:Int,y:Int,coin:Int) {
+func createCharacter(name:String,URLString:URL,bestCoin_map1:Int,coin:Int) {
     let db = Firestore.firestore()
     //name: characterName, gender: genderSelect,coins: 0
-    let userData = PlayerData(name: name,URLString:URLString,action:action,x : x, y :y,coin:coin)
+    let userData = PlayerData(name:name,URLString:URLString,coin:coin, bestCoin_map1:bestCoin_map1)
     do {
         try db.collection("UserData").document("\(name)").setData(from: userData)
     } catch {
         print(error)
     }
-}/*
-func getURLSting(name:String)throws -> String{//沒用 問怎麼return值
-    
-        let db = Firestore.firestore()
-        var urll = ""
-        db.collection("UserData").document("\(name)").getDocument { document, error in
-              
-            
-            guard let document = document,document.exists,
-                   var userData = try? document.data(as: PlayerData.self) else {return()}
-            do{
-                print("myURL:\(userData.URLString)")
-                urll = "\(userData.URLString)"
-                print("內:\(urll)")
-                //return urll
-            }
-            
-        }
-    urll = "1"
-    print("外圍:\(urll)")
-    return urll
 }
-*/
-func getURLSting(name:String){//從creatCharacter(in CharacterSet)讀取後存入room(in CharacterView)
+func createCharacterPositon(name:String,x:CGFloat,y:CGFloat) {
+            let db = Firestore.firestore()
+            
+    let location = Location(name: name,x:x,y:y)
+        
+            do {
+                try db.collection("location").document("\(location.name)").setData(from: location)
+            } catch {
+                print(error)
+            }
+}
+func getPlayerCoin(name:String){//從creatCharacter(in CharacterSet)讀取後存入room(in CharacterView)
     let db = Firestore.firestore()
     var urll = ""
     db.collection("UserData").document("\(name)").getDocument { document, error in
@@ -60,34 +49,17 @@ func getURLSting(name:String){//從creatCharacter(in CharacterSet)讀取後存�
         }
         
     }
-}/*
-func saveURLtoRoom(roomName:String,URLSting:String){//從creatCharacter(in CharacterSet)讀取後存入room(in CharacterView)
-    let db = Firestore.firestore()
-    let documentReference =
-        db.collection("waitingRoom").document("\(roomName)")
-    documentReference.getDocument { document, error in
-                    
-      guard let document = document,
-            document.exists,
-            var modifyChararcter = try? document.data(as: WaitingRoom.self)
-      else {
-                return
-      }
-        if modifyChararcter.player2==""{
-            
-            modifyChararcter.URL_player2 = "\(URLSting)"
-        }else if modifyChararcter.player3==""{
-            modifyChararcter.URL_player3 = "\(URLSting)"
-        }
-      do {
-         try documentReference.setData(from: modifyChararcter)
-      } catch {
-         print(error)
-      }
-                    
-    }
     
-}*/
+}
+func setPlayerCoin(UserData: PlayerData) {
+    let db = Firestore.firestore()
+        
+    do {
+        try db.collection("UserData").document(UserData.name).setData(from: UserData)
+    } catch {
+        print(error)
+    }
+}
 func ModifyChararcterName(roomName:String,name:String,URLSting:String) {
         let db = Firestore.firestore()
         let documentReference =
@@ -125,3 +97,4 @@ func ModifyChararcterName(roomName:String,name:String,URLSting:String) {
                         
         }
 }
+

@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct RoomState: Codable, Identifiable {
+struct RoomState: Codable, Identifiable {//紀錄firebase上waiting room得值
     @DocumentID var id: String?
     let name : String
     var password: String
@@ -31,13 +31,26 @@ struct Map1: Codable, Identifiable {
     var quantity: Int
     var preparedQuantity:Int
 }
-struct cook: Codable, Identifiable {
+struct Food: Codable, Identifiable {
     @DocumentID var id: String?
-    var dishes = ["青菜炒蛋","蕃茄沙拉"]
-    var wash:Bool
-    var cut :Bool
-    var washTime : Int = 3
-    var cookTime : Int = 5
+    let room : String
+    
+    var vegetable : Int
+    var tomato : Int
+    
+    var cutVegetable : Int
+    var cutTomato : Int
+    
+    var cutVegetableForCook : Int
+    var cutTomatoForCook : Int
+    
+    var cookingVegetableNum : Int
+    var cookingTomatoNum : Int
+    
+    var orderVegetableNum : Int
+    var orderTomatoNum : Int 
+    
+    var coin : Int = 0
     
 }
 //人物到的櫃子會亮
@@ -61,4 +74,33 @@ class FrameData: ObservableObject {
     var foodFrameX = [CGFloat](repeating: CGFloat.zero, count:7)
     var foodFrameY = [CGFloat](repeating: CGFloat.zero, count:7)
  
+}
+class GameTimer: ObservableObject {
+    
+    private var frequency = 1.0
+    private var timer: Timer?
+    private var startDate: Date?
+    @Published var secondsElapsed = 0
+    func getDate() -> Date {////////////
+            startDate = Date()
+            return startDate!
+        }
+    
+    func start() {
+        secondsElapsed = 0
+        startDate = Date()
+        timer = Timer.scheduledTimer(withTimeInterval: frequency, repeats: true)
+    { timer in
+            if let startDate = self.startDate {
+                self.secondsElapsed = Int(timer.fireDate.timeIntervalSince1970 -
+    startDate.timeIntervalSince1970)
+            }
+        }
+        //if timer > 50 ???????????????
+    }
+    func stop() {
+        timer?.invalidate()
+        timer = nil
+    }
+
 }

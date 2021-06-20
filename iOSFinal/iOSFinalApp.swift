@@ -22,6 +22,7 @@ import SwiftUI
 @main
 struct iOSFinalApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     var body: some Scene {
         WindowGroup {
             //FirstView(playerSignInMail: "", playerSignInPassword: "", searchRoomName: "")
@@ -31,6 +32,7 @@ struct iOSFinalApp: App {
             //Test0617View()
             //WaitingRoomView(searchRoomName: "", creatRoomName: "", crearhRoomPassword: "", roomDocumentName: "")
             //shuffleView()
+            //test0621View()
         }
     }
 }

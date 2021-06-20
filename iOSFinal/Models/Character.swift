@@ -20,10 +20,8 @@ struct PlayerData: Codable, Identifiable {
     @DocumentID var id: String?
     let name: String
     let URLString :URL
-    let action:String
-    var x : Int
-    var y :Int
     var coin:Int
+    var bestCoin_map1 :Int
 }
 struct Cooking: Codable, Identifiable {
     @DocumentID var id: String?

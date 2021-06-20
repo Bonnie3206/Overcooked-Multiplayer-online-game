@@ -17,7 +17,8 @@ import AVFoundation
 
 struct GameView: View {
     
-    @Binding var roomDocumentName:String 
+    @Binding var roomDocumentName:String
+    
     //character
     @State private var currentUser = Auth.auth().currentUser
     @State private var userPhotoURL = URL(string: "")
@@ -57,21 +58,21 @@ struct GameView: View {
     @State private var orderVegetableNum : Int = 0
     @State private var orderTomatoNum : Int = 0
     @State private var FinishedOrder : Int = 0
-    //偵測位置
-    @State var characterFrame  = [CGRect](repeating: CGRect.zero, count: 3)//有三個第一次的絕對位置
-    @State var foodFrame = [CGRect](repeating: CGRect.zero, count:7)
-    //有六個食物位置[0青菜上,切好的青菜上,切好的青菜下,番茄,切好的番茄上,切好的番茄下]
+    
+//偵測位置
+    
+    @State private var newPosition = [CGSize.zero]
+    @State private var intersectionReturn = Int()
+    
+    @State var characterFrame  = [CGRect](repeating: CGRect.zero, count: 3)
     @State var nowCharacterFrameX = [CGFloat](repeating: CGFloat.zero, count: 3)
     @State var nowCharacterFrameY = [CGFloat](repeating: CGFloat.zero, count: 3)
     
-    @State var nowfoodFrameX = [CGFloat](repeating: CGFloat.zero, count: 7)//新的絕對位置Answer
+    @State var foodFrame = [CGRect](repeating: CGRect.zero, count:7)
     @State var nowfoodFrameY = [CGFloat](repeating: CGFloat.zero, count: 7)
-    //food不動,不變
     @State var foodFrameX = [CGFloat](repeating: CGFloat.zero, count: 7)
     @State var foodFrameY = [CGFloat](repeating: CGFloat.zero, count: 7)
 //數值顯示
-    @State private var newPosition = [CGSize.zero]
-    @State private var intersectionReturn = Int()
     
     @State private var takeVegetable = false
     @State private var takeTomato = false
@@ -80,8 +81,42 @@ struct GameView: View {
     @State private var ifTake = false
     @State private var nextAction :String = ""
     
+    
+    @State private var coin : Int = 0
+    
     @State private var correctNum = 0
-    @State private var coin = 0
+    @State private var gameOver = false
+//timer
+    @StateObject var gameTimer = GameTimer()
+    @State private var timeBar = CGSize.zero
+    @State private var gameTime = 50
+    @State private var goEndView = false
+    
+    
+//tap
+    @State private var tapGoal_wash : Int = 5
+    @State private var tapGoal_cook : Int = 3
+    
+    @State private var tapTimes_washVegetable : Int = 0
+    @State private var tapTimes_washTomato : Int = 0
+    @State private var tapTimes_cook : Int = 0
+    
+    @State private var limitX = [CGFloat.zero]
+    @State private var limitY = [CGFloat.zero]
+    
+    @State private var isLoading = false
+//animation
+    @State private var flameCircleColorChanged = false
+    @State private var flameColorChanged = false
+    @State private var flameSizeChanged = false
+    
+    @State private var dropCircleColorChanged_vegetable = false
+    @State private var dropColorChanged_vegetable = false
+    @State private var dropSizeChanged_vegetable = false
+    
+    @State private var dropCircleColorChanged_tomato = false
+    @State private var dropColorChanged_tomato = false
+    @State private var dropSizeChanged_tomato = false
     
     
     //
@@ -90,6 +125,7 @@ struct GameView: View {
     var cooking = Cooking()
     var order = Order()
     
+   
     func judgeIntersection(objectX: CGFloat, objectY: CGFloat)->Int{//input人 對比跟六種菜是否有交集
         let objectRect = CGRect(x: objectX, y: objectY, width:100, height: 100)
         var outcome = 0
@@ -167,12 +203,20 @@ struct GameView: View {
         orderVegetableNum = Int.random(in: 1...3)
         orderTomatoNum = Int.random(in: 1...3)
         correctNum = 0
+        gameTimer.start()
+        gameOver = false
+        coin = 0
     }
     func updateOrder(){
         orderVegetableNum = Int.random(in: 1...3)
         orderTomatoNum = Int.random(in: 1...3)
     }
-    
+    func ifTimeUp(){
+        if gameTimer.secondsElapsed > gameTime{
+            gameOver = true
+            goEndView = true
+        }
+    }
     
     var body: some View {
         ZStack{
@@ -216,8 +260,7 @@ struct GameView: View {
                     
                     .frame(width:400,height:400)
                     .scaleEffect(0.20)
-                   .offset(x:-245,y:-170)
-                   // .position(x: 200, y: 50)
+                    .offset(x:-245,y:-170)
                     .overlay(
                         GeometryReader(content: { geometry in
                         
@@ -228,16 +271,28 @@ struct GameView: View {
                      )
                     .overlay(
                         
-                        Text("\(vegetable)")
+                        Text("\(tapTimes_washVegetable) / \(tapGoal_wash)")
                             .padding(.horizontal, 10)
                             .background(Color(.systemGray6))
                             .cornerRadius(15)
                             .offset(x:-245,y:-130)
                     )
+                ZStack {
+                    
+                    Circle()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor( dropCircleColorChanged_vegetable ? Color(.systemGray5) : .blue)
+                 
+                    Image(systemName: "drop.fill")
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(dropColorChanged_vegetable ? .blue : .white)
+                        .font(.system(size: 30))
+                        .scaleEffect(dropSizeChanged_vegetable ? 1.0 : 0.5)
+                }.offset(x:-285,y:-130)
+                   
                 Image("洗好的菜去背")//切菜桌1
                     .resizable()
                     .scaledToFit()
-                    //.position(x: 0, y: 0)
                     .frame(width:400,height:400)
                     .scaleEffect(0.20)
                     .offset(x:-170,y:-170)
@@ -269,12 +324,28 @@ struct GameView: View {
                         })
                      )
                     .overlay(
-                        Text("\(tomato)")
+                        Text("\(tapTimes_washTomato) / \(tapGoal_wash)")
                             .padding(.horizontal, 10)
                             .background(Color(.systemGray6))
                             .cornerRadius(15)
                             .offset(x:-10,y:-130)
+                        
                     )
+        ////////
+                    ZStack {
+                        
+                        Circle()
+                            .frame(width: 20, height: 20)
+                            .foregroundColor( dropCircleColorChanged_tomato ? Color(.systemGray5) : .blue)
+                     
+                        Image(systemName: "drop.fill")
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(dropColorChanged_tomato ? .blue : .white)
+                            .font(.system(size: 30))
+                            .scaleEffect(dropSizeChanged_tomato ? 1.0 : 0.5)
+                    }.offset(x:-50,y:-130)
+                
+                
                 Image("番茄切片去背")//切菜桌3
                     .resizable()
                     .scaledToFit()
@@ -299,12 +370,12 @@ struct GameView: View {
             }
 //菜單、正在煮的東西////////////////////////
             Group{
-                Text("訂單")
+                Text("目前訂單")
                     .padding(.horizontal, 10)
-                    .frame(width:100,height:20)
+                    .frame(width:100,height:30)
                     .background(Color(.systemGray6))
                     .cornerRadius(15)
-                    .offset(x:-360,y:-170)
+                    .offset(x:-360,y:-175)
                 Image("洗好的菜去背")//菜單
                     .resizable()
                     .scaledToFit()
@@ -346,6 +417,7 @@ struct GameView: View {
                             .cornerRadius(15)
                             .offset(x:100,y:170)
                     )
+                
                 Image("番茄切片去背")//正在煮的東西
                     .resizable()
                     .scaledToFit()
@@ -363,8 +435,45 @@ struct GameView: View {
             }
 //數值顯示///////////
             Group{
+                
+                Button(action: {
+                    initial()
+                    
+                }, label: {
+                    Text("遊戲開始")
+                        .padding(7)
+                        .padding(.horizontal, 25)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.horizontal, 10)
+                }).offset(x: 200, y: -175)
+                if gameTimer.secondsElapsed < gameTime{
+                    
+                    Text("剩餘時間：\(gameTime-gameTimer.secondsElapsed)")
+                        .padding(7)
+                        .padding(.horizontal, 25)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.horizontal, 10)
+                        .offset(x:350,y:-175)
+                    
+                }else{
+                    Text("end")
+                        .padding(7)
+                        .padding(.horizontal, 25)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.horizontal, 10)
+                        .offset(x:350,y:-175)
+                }
                 Text("金幣:\(coin)")
-                    .position(x: 750, y: 300)
+                    .padding(7)
+                    .padding(.horizontal, 25)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                    .padding(.horizontal, 10)
+                    .offset(x:350,y:-130)
+                
                 
             }
 //中間桌以下/////////////
@@ -427,12 +536,44 @@ struct GameView: View {
                                
                         })
                      )
+                    .overlay(
+                        Text("\(tapTimes_cook) / \(tapGoal_cook)")
+                            .padding(.horizontal, 10)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(15)
+                            .offset(x:-10,y:200)
+                    )
+                ZStack {
+                    Circle()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(flameCircleColorChanged ? Color(.systemGray5) : .red)
+                 
+                    Image(systemName: "flame.fill")
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(flameColorChanged ? .red : .white)
+                        .font(.system(size: 30))
+                        .scaleEffect(flameSizeChanged ? 1.0 : 0.5)
+                }.offset(x:-50,y:200)
+                
+                if tapTimes_cook != 0{
+                    Circle()
+                        .trim(from: 0, to: 0.5)
+                        .stroke(Color.green, lineWidth: 5)
+                        .frame(width: 50, height: 50)
+                        .rotationEffect(Angle(degrees: isLoading ? 360 : 0))
+                        .animation(Animation.default.repeatForever(autoreverses: false))
+                        .offset(x:-10,y:200)
+                        /*
+                        .onAppear() {
+                            self.isLoading = true
+                         }*/
+                }
             }
-//移動////////////////////////////////////
+//方向鍵////////////////////////////////////
             Group{
                 //上
                 Button(action: {
-                    
+                    //if limitY <
                     myOffset.height = newPosition[0].height - footStep
                     newPosition[0] = myOffset
                     frameData.nowCharacterFrameY[0] = frameData.characterFrame[0].origin.y+newPosition[0].height//移動後座標
@@ -446,7 +587,7 @@ struct GameView: View {
                         .resizable()
                         .frame(width: 50, height: 50)
                         
-                }).position(x: 50, y: 250)
+                }).position(x: 50, y: 290)
                 //左
                 Button(action: {
                     myOffset.width = newPosition[0].width - footStep
@@ -462,7 +603,7 @@ struct GameView: View {
                         .resizable()
                         .frame(width: 50, height: 50)
                         
-                }).position(x: 0, y: 300)
+                }).position(x: 0, y: 340)
                 //右
                 Button(action: {
                     myOffset.width = newPosition[0].width + footStep
@@ -476,7 +617,7 @@ struct GameView: View {
                     Image(systemName: "chevron.right.circle.fill")
                         .resizable()
                         .frame(width: 50, height: 50)
-                }).position(x: 100, y: 300)
+                }).position(x: 100, y: 340)
                 //下
                 Button(action: {
                     myOffset.height = newPosition[0].height + footStep
@@ -492,37 +633,56 @@ struct GameView: View {
                     Image(systemName: "chevron.down.circle.fill")
                         .resizable()
                         .frame(width: 50, height: 50)
-                }).position(x: 50, y: 350)
+                }).position(x: 50, y: 390)
                 
 //功能鍵//////////////////////////////
                 Group{
-                    
                     Button(action: {
-                        initial()
+ //
+                        ifTimeUp()
                         
-                    }, label: {
-                        Text("遊戲開始")
-                            .padding(7)
-                            .padding(.horizontal, 25)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                            .padding(.horizontal, 10)
-                    }).position(x: 750, y: 150)
-                    
-                    
-                    Button(action: {
                         intersectionReturn = judgeIntersection(objectX: frameData.nowCharacterFrameX[0], objectY: frameData.nowCharacterFrameY[0])
                         
                         if  intersectionReturn == 10{
                             print("10")
                         }else if intersectionReturn == 0{
+                            
                             print("洗菜 : 0")
-                            //ifTake.toggle()
-                            cutVegetable += 1
+                            
+                            if tapTimes_washVegetable < tapGoal_wash{
+                                tapTimes_washVegetable += 1
+                                withAnimation(.default) {
+                                    self.dropCircleColorChanged_vegetable.toggle()
+                                    self.dropColorChanged_vegetable.toggle()
+                                    self.dropSizeChanged_vegetable.toggle()
+                                }
+                            }else if tapTimes_washVegetable == tapGoal_wash{
+                                tapTimes_washVegetable = 0
+                                cutVegetable += 1
+                                
+                            }
                         }else if intersectionReturn == 2{
+                            
                             print("洗菜 : 2")
-                            cutTomato += 1
+                            if tapTimes_washTomato < tapGoal_wash{
+                                tapTimes_washTomato += 1
+                                /*
+                                withAnimation(.default) {
+                                    
+                                    dropCircleColorChanged_tomato.toggle()
+                                    dropColorChanged_tomato.toggle()
+                                    dropSizeChanged_tomato.toggle()
+ 
+                                }*/
+                                dropCircleColorChanged_tomato.toggle()
+                                dropColorChanged_tomato.toggle()
+                                dropSizeChanged_tomato.toggle()
+                            }else if tapTimes_washTomato == tapGoal_wash{
+                                tapTimes_washTomato = 0
+                                cutTomato += 1
+                            }
                         }
+                        setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin))
                         
                     }, label: {
                         Text("洗菜")
@@ -531,11 +691,18 @@ struct GameView: View {
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal, 10)
-                    }).position(x: 750, y: 250)
+                    }).position(x: 750, y: 300)
                     
                     Button(action: {
                         
+                        ifTimeUp()
+                        
+                        
                         intersectionReturn = judgeIntersection(objectX: frameData.nowCharacterFrameX[0], objectY: frameData.nowCharacterFrameY[0])
+                        
+                        print("ifTake:\(ifTake)")
+                        print("nextAction:\(nextAction)")
+                        
                         print("character at :")
                         print(frameData.nowCharacterFrameX[0],frameData.nowCharacterFrameY[0])
                         print("frameData.foodFrame[4]:\(frameData.foodFrameX[4]),\(frameData.foodFrameY[4])")
@@ -635,6 +802,7 @@ struct GameView: View {
                             print("no intersect")
                         }else{
                         }
+                        setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin))
                         
                     }, label: {
                         Text("\(nextAction):\(takeWhat)")
@@ -643,19 +811,47 @@ struct GameView: View {
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal, 10)
-                    }).position(x: 750, y: 300)
+                    }).position(x: 750, y: 350)
                     
                     
                     Button(action: {
-                        if orderTomatoNum == cookingTomatoNum && orderVegetableNum == cookingVegetableNum {
-                            coin += 100*(orderTomatoNum + orderVegetableNum)
-                            cookingTomatoNum = 0
-                            cookingVegetableNum = 0
-                            updateOrder()
-                            correctNum+=1
+                        
+                        ifTimeUp()
+                        
+                        if tapTimes_cook < tapGoal_cook{
+                            
+                            withAnimation(.default) {
+                                self.flameCircleColorChanged.toggle()
+                                self.flameColorChanged.toggle()
+                                self.flameSizeChanged.toggle()
+                            }
+                            tapTimes_cook += 1
+                            
+                        }else if tapTimes_cook == tapGoal_cook{
+                            tapTimes_cook = 0
+                            
+                            if orderTomatoNum == cookingTomatoNum && orderVegetableNum == cookingVegetableNum {
+                                print("出菜成功")
+                                var correctPoint = orderTomatoNum + orderVegetableNum
+                                print("\(orderTomatoNum + orderVegetableNum)")
+                                print("\(100*(orderTomatoNum + orderVegetableNum))")
+                                
+                                coin += (100*(orderTomatoNum + orderVegetableNum))
+                                print("\(coin)")
+                                cookingTomatoNum = 0
+                                cookingVegetableNum = 0
+                                updateOrder()
+                                correctNum+=1
+                            }
                         }
                         
+                        print("coin:\(coin)")
+                        
+                        setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin))
+                        
                     }, label: {
+                        
+                        
                         Text("做菜")
                             .padding(7)
                             .padding(.horizontal, 25)
@@ -695,15 +891,19 @@ struct GameView: View {
             
             
         }.onAppear(perform:{
+            
+            
+            
             if ifTake == false{
                 nextAction = "拿取"
             }else{
                 nextAction = "放下"
-            }
+            }/*
+            
             //取位置
             nowCharacterFrameX = [CGFloat](repeating: CGFloat.zero, count: 3)//新的絕對位置Answer
             nowCharacterFrameY = [CGFloat](repeating: CGFloat.zero, count: 3)
-            
+            */
             let queue = DispatchQueue(label: "com.appcoda.myqueue")
             //取得角色資訊
             userPhotoURL = (currentUser?.photoURL)
@@ -726,6 +926,14 @@ struct GameView: View {
                     URLString_Player1 = String(room.URL_player1)
                     URLString_Player2 = String(room.URL_player2)
                     URLString_Player3 = String(room.URL_player3)
+                }
+                db.collection("food").document("\(roomDocumentName)").addSnapshotListener { snapshot, error in
+                    
+                    guard let snapshot = snapshot else { return }
+                    //guard let food = try? snapshot.data(as: Food.self) else { return }
+                    
+                    setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin))
+
                 }
                 
                 //自己的位置
@@ -753,6 +961,7 @@ struct GameView: View {
                 }
             }
             })
+        EmptyView().sheet(isPresented: $goEndView,content:{EndView(roomDocumentName: $roomDocumentName)})
     }
 }
 

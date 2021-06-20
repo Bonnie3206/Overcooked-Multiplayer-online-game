@@ -81,6 +81,7 @@ struct EnterRoomView: View {
                     Button(action:
                     {
                         createRoom(name:creatRoomName,password:crearhRoomPassword,start:true,player1: "\(userName)",player2: "",player3: "",quantity:1,preparedQuantity:0,URL_player1 :"\(turnURLString)",URL_player2 :"",URL_player3 :"")
+                        createFood(room: creatRoomName, vegetable : 0,tomato : 0,cutVegetable : 0,cutTomato:0,cutVegetableForCook:0,cutTomatoForCook : 0,cookingVegetableNum : 0, cookingTomatoNum : 0,orderVegetableNum : 0,orderTomatoNum:0,coin : 0)
                         roomName = creatRoomName
                         goWaitingRoom = true
                     }
@@ -159,8 +160,6 @@ struct EnterRoomView: View {
                 userPhotoURL = (currentUser?.photoURL)
                 turnURLString = userPhotoURL!.absoluteString
                 
-                print("myurl\(currentUser?.photoURL)")
-                print("turnURLString:\(turnURLString)")
                 if let user = Auth.auth().currentUser {
                     
                     userName = user.displayName ?? "nil"

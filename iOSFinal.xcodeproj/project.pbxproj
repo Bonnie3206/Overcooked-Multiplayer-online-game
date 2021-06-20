@@ -37,6 +37,8 @@
 		43A3553F26794F90004F201D /* EnterRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A3553E26794F90004F201D /* EnterRoomView.swift */; };
 		43A35543267A6820004F201D /* GameView_original0616.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A35542267A681F004F201D /* GameView_original0616.swift */; };
 		43A35545267AAB62004F201D /* Test0617View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A35544267AAB61004F201D /* Test0617View.swift */; };
+		43A35549267FD1D5004F201D /* test0621View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A35548267FD1D4004F201D /* test0621View.swift */; };
+		43A3554B267FF428004F201D /* EndView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A3554A267FF428004F201D /* EndView.swift */; };
 		43A3856E265E6CA1009554A2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43A3856D265E6CA1009554A2 /* GoogleService-Info.plist */; };
 		43A3857126675E9C009554A2 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 43A3857026675E9C009554A2 /* FirebaseCrashlytics */; };
 		43A38573266760F7009554A2 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A38572266760F7009554A2 /* ErrorView.swift */; };
@@ -72,6 +74,8 @@
 		43A3553E26794F90004F201D /* EnterRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterRoomView.swift; sourceTree = "<group>"; };
 		43A35542267A681F004F201D /* GameView_original0616.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView_original0616.swift; sourceTree = "<group>"; };
 		43A35544267AAB61004F201D /* Test0617View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test0617View.swift; sourceTree = "<group>"; };
+		43A35548267FD1D4004F201D /* test0621View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test0621View.swift; sourceTree = "<group>"; };
+		43A3554A267FF428004F201D /* EndView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndView.swift; sourceTree = "<group>"; };
 		43A3856D265E6CA1009554A2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		43A38572266760F7009554A2 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		A9024A3D3EFBD98B3A20780D /* Pods-iOSFinal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSFinal.debug.xcconfig"; path = "Target Support Files/Pods-iOSFinal/Pods-iOSFinal.debug.xcconfig"; sourceTree = "<group>"; };
@@ -169,6 +173,8 @@
 				43A3553E26794F90004F201D /* EnterRoomView.swift */,
 				439A22A0266E6CF20056F34E /* WaitingRoomView.swift */,
 				439A22A626706EC00056F34E /* GameView.swift */,
+				43A3554A267FF428004F201D /* EndView.swift */,
+				43A35548267FD1D4004F201D /* test0621View.swift */,
 				439A22AA267084250056F34E /* testing */,
 			);
 			path = View;
@@ -362,6 +368,7 @@
 				439A22A1266E6CF20056F34E /* WaitingRoomView.swift in Sources */,
 				43A35543267A6820004F201D /* GameView_original0616.swift in Sources */,
 				437A0F5A264843EF0028B397 /* FirebaseSet.swift in Sources */,
+				43A35549267FD1D5004F201D /* test0621View.swift in Sources */,
 				431DC6932675359D0002213F /* MapSetting.swift in Sources */,
 				437A0F412641B1FC0028B397 /* RegisterView.swift in Sources */,
 				432C38E52626A51900BAAEE8 /* appDelegate.swift in Sources */,
@@ -372,6 +379,7 @@
 				43A38573266760F7009554A2 /* ErrorView.swift in Sources */,
 				43A3553F26794F90004F201D /* EnterRoomView.swift in Sources */,
 				439A22A726706EC10056F34E /* GameView.swift in Sources */,
+				43A3554B267FF428004F201D /* EndView.swift in Sources */,
 				439A22A926707AD80056F34E /* SecondView.swift in Sources */,
 				439A22AC2670843B0056F34E /* Test0609View.swift in Sources */,
 				43A35545267AAB62004F201D /* Test0617View.swift in Sources */,

@@ -23,13 +23,14 @@ func createRoom(name:String,password:String,start:Bool,player1:String, player2:S
                 print(error)
             }
 }
-func createCharacterPositon(name:String,x:CGFloat,y:CGFloat) {
+
+func createFood(room: String, vegetable : Int,tomato : Int,cutVegetable : Int,cutTomato:Int,cutVegetableForCook:Int,cutTomatoForCook : Int,cookingVegetableNum : Int, cookingTomatoNum : Int,orderVegetableNum : Int,orderTomatoNum:Int,coin : Int) {
             let db = Firestore.firestore()
             
-    let location = Location(name: name,x:x,y:y)
+    let food = Food(room: room, vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin)
         
             do {
-                try db.collection("location").document("\(location.name)").setData(from: location)
+                try db.collection("food").document("\(food.room)").setData(from: food)
             } catch {
                 print(error)
             }
@@ -120,7 +121,7 @@ func minusQuantity(room:String) {//因firebase更新速度問題無法同時使�
                     
     }
 }
-func setLocation(location: Location) {//更新狀態 沒用到
+func setLocation(location: Location) {
     let db = Firestore.firestore()
         
     do {
@@ -128,48 +129,16 @@ func setLocation(location: Location) {//更新狀態 沒用到
     } catch {
         print(error)
     }
-}/*
-func getLocation(userName:String){//取得位置
-    
+}
+func setFood(food: Food) {
     let db = Firestore.firestore()
-    db.collection("location").document("\(userName)").addSnapshotListener { snapshot, error in
         
-        guard let snapshot = snapshot else { return }
-        guard let location = try? snapshot.data(as: Location.self) else { return }
-        offset = CGSize(width: location.x, height: location.y)
-        
+    do {
+        try db.collection("food").document(food.room).setData(from: food)
+    } catch {
+        print(error)
     }
-
-}*/
-/*
-//水果有六個點 人就是自己而已 
-//是否相交
-func judgeIntersection(objectX: CGFloat, objectY: CGFloat, wordIndex: Int)->Int{
-    let objectRect = CGRect(x: objectX, y: objectY, width: 100, height: 100)
-    for index in (0..<answers[num-1].count){
-        print(answers[num-1].count)
-        //print("c\(wordIndex)")
-        let targetRect = CGRect(x: qaData.nowAnswerFrameX[index], y: qaData.nowAnswerFrameY[index], width: 100, height: 100)
-        print("\(index),\(qaData.answerFrame[index].origin.x),\(qaData.answerFrame[index].origin.y)")
-        let interRect = objectRect.intersection(targetRect)
-        if(interRect.width>=1 || interRect.height>=1){
-            if(answers[num-1][index].isEqual(questions[num][wordIndex])){
-                
-                print("correct\(index)")
-                print("correctNum\(correctNum)")
-                
-                return index
-            }//放對位置
-            else{
-                return 200//放錯
-            }
-            
-        }
-    }
-    
-    return 100//沒放到
-    
-}*/
+}
 
 
 
