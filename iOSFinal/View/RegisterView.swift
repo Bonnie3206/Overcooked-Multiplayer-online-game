@@ -71,6 +71,11 @@ struct RegisterView: View {
         
     }, label: {
         Text("註冊")
+            .padding(7)
+            .padding(.horizontal, 25)
+            .background(Color(.systemGray6))
+            .cornerRadius(8)
+            .padding(.horizontal, 10)
     }).alert(isPresented: $showAlert) { () -> Alert in
         
         Alert(title: Text("\(alertContent)"), message: Text(""), dismissButton: .default(Text("確定"), action: {

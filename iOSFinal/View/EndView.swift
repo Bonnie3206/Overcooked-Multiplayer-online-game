@@ -99,7 +99,7 @@ struct EndView: View {
                 
                 Alert(title: Text("看廣告拿金幣500"), message: Text("要看完廣告才能得免費金幣喔"), dismissButton: .default(Text("確定"), action: {
                     
-                    //showAd()
+                    showAd()
                     newTotalCoins = totalCoins + roomCoins
                     newTotalCoins += 500
                     if bestCoin_map1 < roomCoins{

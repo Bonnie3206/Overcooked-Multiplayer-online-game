@@ -28,11 +28,11 @@ struct iOSFinalApp: App {
             //FirstView(playerSignInMail: "", playerSignInPassword: "", searchRoomName: "")
             //CharacterSetView()
             //EnterRoomView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")
-            GameView(roomDocumentName: .constant("Room2"))
+            //GameView(roomDocumentName: .constant("Room2"))
             //Test0617View()
             //WaitingRoomView(searchRoomName: "", creatRoomName: "", crearhRoomPassword: "", roomDocumentName: "")
             //shuffleView()
-            //test0621View()
+            EndView(roomDocumentName: .constant("Room2"))
         }
     }
 }

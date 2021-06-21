@@ -20,6 +20,7 @@ import AppTrackingTransparency
 struct FirstView: View {
     @State var goCharacterSet = false
     @State var goRegisterView = false
+    @State var showIntroduction = false
     @State var playerSignInMail: String
     @State var playerSignInPassword: String
     @State private var goCharacterView = false
@@ -74,17 +75,42 @@ struct FirstView: View {
                             print("not login")
                         }
                     }}, label: {Text("登入   ")
-                        .font(.largeTitle)
+                            .padding(7)
+                            .padding(.horizontal, 25)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .padding(.horizontal, 10)
+                        
                     })
                     
                     Button(action:{
-                        Text("say:\"1234\"")
+                        
                         goRegisterView = true
                     }
                    , label: {
-                        Text("   註冊")
-                            .font(.largeTitle)
+                        Text("   註冊").padding(7)
+                            .padding(.horizontal, 25)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .padding(.horizontal, 10)
                    })
+                    Button(action:{
+                        
+                        showIntroduction = true
+                    }
+                   , label: {
+                        Text("遊戲介紹")
+                            .padding(7)
+                            .padding(.horizontal, 25)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .padding(.horizontal, 10)
+                   }).alert(isPresented: $showIntroduction) { () -> Alert in
+                    
+                    Alert(title: Text("遊戲介紹"), message: Text("1.遊戲由三個人進行\n 2.訂單完成需先洗菜，再將菜拿起到鍋子放下，若鍋子內的東西達成訂單上的需求，即可完成一道菜得分。\n3.三人可分工完成洗菜、拿菜、煮菜，以節省時間\n4.計分方式為：依訂單原料個數多寡計算，每完成一個訂單得分一次\n5.遊戲時間為三分鐘，最後可看個小廣告加分～"), primaryButton: .default(Text("了解"), action: {
+                    }), secondaryButton: .default(Text("不了解，想試玩"), action: {
+                    }))
+                }
                     
                 }
             }
@@ -98,6 +124,7 @@ struct FirstView: View {
         })
         EmptyView().sheet(isPresented: $goCharacterSet, content:{CharacterSetView(searchRoomName: "")})
         EmptyView().sheet(isPresented: $goCharacterView, content:{EnterRoomView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")})
+        
         
         
         

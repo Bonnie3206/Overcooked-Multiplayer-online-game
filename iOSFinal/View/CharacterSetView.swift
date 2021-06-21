@@ -242,7 +242,11 @@ struct CharacterSetView: View
                     
                 }, label: {
                     Text("隨機")
-                        .font(.largeTitle)
+                        .padding(7)
+                        .padding(.horizontal, 25)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.horizontal, 10)
                 })
                 Spacer()
                 Button(action:{
@@ -281,8 +285,11 @@ struct CharacterSetView: View
                 } , label: {
                     
                     Text("確定")
-                        .font(.largeTitle)
-                        .foregroundColor(.purple)
+                        .padding(7)
+                        .padding(.horizontal, 25)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.horizontal, 10)
                 })
             }.padding(EdgeInsets(top: 10, leading: 250, bottom: 5, trailing: 250))
             
