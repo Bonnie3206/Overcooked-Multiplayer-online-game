@@ -6,6 +6,12 @@
 //帳號Test1234@gmail.com密碼12341234
 //帳號Test2222@gmail.com密碼22222222
 //帳號Test0000@gmail.com密碼00000000
+//帳號Test3333@gmail.com密碼00000000
+//帳號Test4444@gmail.com密碼44444444
+//帳號Test5555@gmail.com密碼55555555
+//帳號Test6666@gmail.com密碼66666666
+//帳號Test7777@gmail.com密碼77777777
+//帳號Test11111@gmail.com密碼11111111
 
 import SwiftUI
 import FirebaseAuth
@@ -20,7 +26,9 @@ import AppTrackingTransparency
 struct FirstView: View {
     @State var goCharacterSet = false
     @State var goRegisterView = false
-    @State var showIntroduction = false
+    @State var goIntroductionView = false
+    @State var goSetting = false
+    
     @State var playerSignInMail: String
     @State var playerSignInPassword: String
     @State private var goCharacterView = false
@@ -29,29 +37,64 @@ struct FirstView: View {
     @State var searchRoomName: String
     
     var body: some View {
-        VStack{
+        ZStack{
+            Image("房間背景")
+                .resizable()
+                .scaledToFit()
+                .scaleEffect(1.1)
             VStack{
-                Text("Overcooked")
-                    .font(.largeTitle)
-                HStack{
-                    Image("cook")
+                ZStack{
+                    Image("標題")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 200, height: 200)
+                        .scaleEffect(1.5)
+                        .frame(width: 270, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    Text("Overcooked")
+                        .font(.system(size: 45, weight: .regular, design: .monospaced))
+                        .offset(x: 0, y: 10)
+                }
+                Button(action: {
                     
-                   
-                    Form{
-                        Section(header: Text("使用者帳號(mail)"))
-                        {
+                    goSetting = true
+                    
+                }, label: {
+                    Image(systemName: "gearshape.fill")
+                        .scaleEffect(3)
+                })
+                .offset(x: -375, y: -70)
+                
+                HStack{
+                    
+                    VStack{
+                        Text("使用者帳號(mail)")
+                            .font(.system(size: 25, weight: .regular, design: .monospaced))
+                        ZStack{
+                            Rectangle()
+                                .foregroundColor(.white)
+                                .opacity(0.99)
+                                .cornerRadius(30)
+                                .frame(width: 310, height: 40, alignment: .center)
+                                .offset(x:0,y:0)
                             TextField("請輸入帳號",text:$playerSignInMail)
+                                .font(.system(size: 18, weight: .regular, design: .monospaced))
+                                .offset(x: 270, y: 0)
                         }
-                        Section(header: Text("密碼"))
-                        {
+                        Text("密碼")
+                            .font(.system(size: 25, weight: .regular, design: .monospaced))
+                        ZStack{
+                            Rectangle()
+                                .foregroundColor(.white)
+                                .opacity(0.99)
+                                .cornerRadius(30)
+                                .frame(width: 310, height: 40, alignment: .center)
+                                .offset(x:0,y:0)
+                            
                             TextField("請輸入密碼",text:$playerSignInPassword)
+                                .font(.system(size: 18, weight: .regular, design: .monospaced))
+                                .offset(x: 270, y: 0)
                         }
                     }
                 }
-                
                 HStack{
                     Button(action: {Auth.auth().signIn(withEmail: "\(playerSignInMail)", password: "\(playerSignInPassword)") { result, error in
                         guard error == nil else {
@@ -74,12 +117,13 @@ struct FirstView: View {
                         } else {
                             print("not login")
                         }
-                    }}, label: {Text("登入   ")
+                    }}, label: {Text("登入")
+                            .font(.system(size:24, weight: .regular, design: .monospaced))
                             .padding(7)
-                            .padding(.horizontal, 25)
+                            .padding(.horizontal, 38)
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
-                            .padding(.horizontal, 10)
+                            .offset(x: 0, y: 20)
                         
                     })
                     
@@ -88,34 +132,30 @@ struct FirstView: View {
                         goRegisterView = true
                     }
                    , label: {
-                        Text("   註冊").padding(7)
-                            .padding(.horizontal, 25)
+                        Text("註冊")
+                            .font(.system(size:24, weight: .regular, design: .monospaced))
+                            .padding(7)
+                            .padding(.horizontal, 38)
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
-                            .padding(.horizontal, 10)
+                            .offset(x: 0, y: 20)
                    })
                     Button(action:{
                         
-                        showIntroduction = true
+                        goIntroductionView = true
                     }
                    , label: {
                         Text("遊戲介紹")
+                            .font(.system(size:24, weight: .regular, design: .monospaced))
                             .padding(7)
-                            .padding(.horizontal, 25)
+                            .padding(.horizontal, 38)
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
-                            .padding(.horizontal, 10)
-                   }).alert(isPresented: $showIntroduction) { () -> Alert in
-                    
-                    Alert(title: Text("遊戲介紹"), message: Text("1.遊戲由三個人進行\n 2.訂單完成需先洗菜，再將菜拿起到鍋子放下，若鍋子內的東西達成訂單上的需求，即可完成一道菜得分。\n3.三人可分工完成洗菜、拿菜、煮菜，以節省時間\n4.計分方式為：依訂單原料個數多寡計算，每完成一個訂單得分一次\n5.遊戲時間為三分鐘，最後可看個小廣告加分～"), primaryButton: .default(Text("了解"), action: {
-                    }), secondaryButton: .default(Text("不了解，想試玩"), action: {
-                    }))/
-                }
+                            .offset(x: 0, y: 20)
+                   })
                     
                 }
             }
-            
-            
         }.onAppear(perform: {
             authorization.requestTracking()
         })
@@ -124,6 +164,8 @@ struct FirstView: View {
         })
         EmptyView().sheet(isPresented: $goCharacterSet, content:{CharacterSetView(searchRoomName: "")})
         EmptyView().sheet(isPresented: $goCharacterView, content:{EnterRoomView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")})
+        EmptyView().sheet(isPresented: $goIntroductionView, content:{IntroductionView()})
+        EmptyView().sheet(isPresented: $goSetting, content:{SettingView()})
         
         
         

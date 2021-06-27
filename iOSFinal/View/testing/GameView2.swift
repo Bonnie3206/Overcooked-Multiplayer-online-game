@@ -1,9 +1,11 @@
 //
-//  GameView.swift
+//  GameView2.swift
 //  iOSFinal
 //
-//  Created by CK on 2021/6/9.
+//  Created by CK on 2021/6/26.
 //
+
+import SwiftUI
 
 import SwiftUI
 import FirebaseAuth
@@ -15,8 +17,9 @@ import Firebase
 import AppTrackingTransparency
 import AVFoundation
 import Combine
+import OMJoystick
 
-struct GameView: View {
+struct GameView2: View {
     
     @Binding var roomDocumentName:String
     
@@ -122,14 +125,20 @@ struct GameView: View {
     
     @State private var receiveTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var timeElapsed = 0
-//if change
-    @State private var update_ifEndView = false
+//虛擬搖桿
+    @State var isDragging = false
+    @State var dragValue = CGSize.zero
+    @State var newOffsetX = CGFloat.zero
+    @State var newOffsetY = CGFloat.zero
+    @State var smallDragIconX = CGFloat.zero
+    @State var smallDragIconY = CGFloat.zero
+
     
     var frameData = FrameData()
     var cooking = Cooking()
     var order = Order()
     
-   
+    
     func judgeIntersection(objectX: CGFloat, objectY: CGFloat)->Int{//input人 對比跟六種菜是否有交集
         let objectRect = CGRect(x: objectX, y: objectY, width:100, height: 100)
         var outcome = 0
@@ -160,42 +169,49 @@ struct GameView: View {
     func updateVegetableFrame_up(geometry: GeometryProxy,offsetX:Float,offsetY:Float,index: Int) {
         // 170 ,-160 與人物神秘的座標差
         frameData.foodFrame[index]=(geometry.frame(in: .global))
-        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x + CGFloat(offsetX)+175
-        frameData.foodFrameY[index] = frameData.foodFrame[index].origin.y - CGFloat(offsetY)-160
+        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x - CGFloat(offsetX)-372
+        frameData.foodFrameY[index] = frameData.foodFrame[index].origin.y - CGFloat(offsetY)-207
+        
+    }
+    func updateVegetableFrame_up2(geometry: GeometryProxy,offsetX:Float,offsetY:Float,index: Int) {
+        // 170 ,-160 與人物神秘的座標差
+        frameData.foodFrame[index]=(geometry.frame(in: .global))
+        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x - CGFloat(offsetX)-216
+        frameData.foodFrameY[index] = frameData.foodFrame[index].origin.y - CGFloat(offsetY)-207
         
     }
     func updateVegetableFrame_down(geometry: GeometryProxy,offsetX:Float,offsetY:Float,index: Int) {
         // 170 ,-160 與人物神秘的座標差
         frameData.foodFrame[index]=(geometry.frame(in: .global))
-        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x + CGFloat(offsetX)+177
+        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x - CGFloat(offsetX)-155
         frameData.foodFrameY[index] = frameData.foodFrame[index].origin.y - CGFloat(offsetY)+204
         
     }
     func updateTomatoFrame(geometry: GeometryProxy,offsetX:Float,offsetY:Float,index: Int) {
         // 412 ,-160 tomato與人物神秘的座標差
         frameData.foodFrame[index]=(geometry.frame(in: .global))
-        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x + CGFloat(offsetX)+182
+        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x - CGFloat(offsetX)+137
         frameData.foodFrameY[index] = frameData.foodFrame[index].origin.y - CGFloat(offsetY)-160
         
     }
     func updateCutTomatoFrame_up(geometry: GeometryProxy,offsetX:Float,offsetY:Float,index: Int) {
         // 412 ,-160 tomato與人物神秘的座標差
         frameData.foodFrame[index]=(geometry.frame(in: .global))
-        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x + CGFloat(offsetX)+172
+        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x - CGFloat(offsetX)+286
         frameData.foodFrameY[index] = frameData.foodFrame[index].origin.y - CGFloat(offsetY)-160
         
     }
     func updateCutTomatoFrame_down(geometry: GeometryProxy,offsetX:Float,offsetY:Float,index: Int) {
         // 412 ,-160 tomato與人物神秘的座標差
         frameData.foodFrame[index]=(geometry.frame(in: .global))
-        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x + CGFloat(offsetX)+130
+        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x - CGFloat(offsetX)+254
         frameData.foodFrameY[index] = frameData.foodFrame[index].origin.y - CGFloat(offsetY)+204
         
     }
     func updateCook(geometry: GeometryProxy,offsetX:Float,offsetY:Float,index: Int) {
         // 412 ,-160 tomato與人物神秘的座標差
         frameData.foodFrame[index]=(geometry.frame(in: .global))
-        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x + CGFloat(offsetX)+171
+        frameData.foodFrameX[index] = frameData.foodFrame[index].origin.x - CGFloat(offsetX)+171
         frameData.foodFrameY[index] = frameData.foodFrame[index].origin.y - CGFloat(offsetY)+555
         
     }
@@ -232,12 +248,10 @@ struct GameView: View {
             print("timeUp")
             gameStart = 0
             
-            /*
             if goEndView == false{
-                
+                setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin,tapTimes_washVegetable:tapTimes_washVegetable, tapTimes_washTomato:tapTimes_washTomato,gameStart:gameStart))
             }
-            */
-            setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin,tapTimes_washVegetable:tapTimes_washVegetable, tapTimes_washTomato:tapTimes_washTomato,gameStart:gameStart))
+            
         }
         if gameStart == 0 {
             remainingTime = 0
@@ -287,7 +301,7 @@ struct GameView: View {
                     .resizable()
                     .scaledToFit()
                     
-                    .frame(width:400,height:400)
+                    .frame(width:300,height:300)
                     .scaleEffect(0.20)
                     .offset(x:-245,y:-170)
                     .overlay(
@@ -322,12 +336,12 @@ struct GameView: View {
                 Image("洗好的菜去背")//切菜桌1
                     .resizable()
                     .scaledToFit()
-                    .frame(width:400,height:400)
+                    .frame(width:300,height:300)
                     .scaleEffect(0.20)
                     .offset(x:-170,y:-170)
                     .overlay(
                         GeometryReader(content: { geometry in
-                            let _ = updateVegetableFrame_up(geometry: geometry,offsetX:-170.0,offsetY:-170, index: 1)
+                            let _ = updateVegetableFrame_up2(geometry: geometry,offsetX:-170.0,offsetY:-170, index: 1)
                             Color.clear
                         })
                      )
@@ -664,326 +678,325 @@ struct GameView: View {
                         .font(.system(size: 30))
                         .scaleEffect(flameSizeChanged ? 1.0 : 0.5)
                 }.offset(x:-50,y:200)
+                VStack {
+                    
+                    Text("width: \(dragValue.width)")
+                    Text("height: \(dragValue.height)")
+                    
+                    VStack (spacing: 10) {
+                        HStack(spacing: 10) {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.gray)
+                            VStack (spacing: 16) {
+                                Image(systemName: "chevron.up")
+                                    .foregroundColor(.gray)
+                                Image(systemName: "chevron.down")
+                                    .foregroundColor(.gray)
+
+                            }
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .frame(width: 70, height: 70)
+
+                    .background(LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)), Color(#colorLiteral(red: 0.8705882353, green: 0.8941176471, blue: 0.9450980392, alpha: 1))]), startPoint: .top, endPoint: .bottom))
+                    .clipShape(Circle())
+                    .offset(x: -300+dragValue.width, y: 50+dragValue.height)
+
+                    .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20)
+                    .padding(.horizontal, 30)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
+                                
+                                let limit: CGFloat = 100        // the less the faster resistance
+                                let xOff = value.translation.width
+                                let yOff = value.translation.height
+                                let dist = sqrt(xOff*xOff + yOff*yOff);
+                                let factor = 1 / (dist / limit + 1)
+                                self.dragValue = CGSize(width: value.translation.width * factor,
+                                                    height: value.translation.height * factor)
+                                self.isDragging = true
+                                /*
+                                myOffset.width = newPosition[0].width + (dragValue.width * 0.05)
+                                myOffset.height = newPosition[0].height + (dragValue.height * 0.05)
+ */
+                                myOffset.width += (dragValue.width * 0.05)
+                                myOffset.height += (dragValue.height * 0.05)
+                                newPosition[0] = myOffset
+                                frameData.nowCharacterFrameX[0] = frameData.characterFrame[0].origin.x+newPosition[0].width
+                                frameData.nowCharacterFrameY[0] = frameData.characterFrame[0].origin.y+newPosition[0].height//移動後座標
+                                setLocation(location: Location(name: "\(userName)", x: myOffset.width, y: myOffset.height))
+                                print("character at :")
+                                print(frameData.nowCharacterFrameX[0],frameData.nowCharacterFrameY[0])
+
+                                
+                        }
+                        .onEnded({value in
+                            
+                            dragValue.width = 0
+                            dragValue.height = 0
+                            
+                        })
+                    )
+                        .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+                }
                 
             }
 //方向鍵////////////////////////////////////
+            
+///功能鍵
             Group{
-                //上
                 Button(action: {
-                    myOffset.height = newPosition[0].height - footStep
-                    newPosition[0] = myOffset
-                    frameData.nowCharacterFrameY[0] = frameData.characterFrame[0].origin.y+newPosition[0].height//移動後座標
-                    setLocation(location: Location(name: "\(userName)", x: myOffset.width, y: myOffset.height))
-                    print("character at :")
-                    print(frameData.nowCharacterFrameX[0],frameData.nowCharacterFrameY[0])
-
-                }, label: {
-                    Image(systemName: "chevron.up.circle.fill")
-                        .resizable()
-                        .frame(width: 50, height: 50)
+                    print("frameData.foodFrameX[0]:\(frameData.foodFrameX[0]),frameData.foodFrameY[0]:\(frameData.foodFrameY[0])")
+                    print("frameData.foodFrameX[1]:\(frameData.foodFrameX[1]),frameData.foodFrameY[1]:\(frameData.foodFrameY[0])")
+                    print("frameData.foodFrameX[2]:\(frameData.foodFrameX[2]),frameData.foodFrameY[2]:\(frameData.foodFrameY[2])")
+                    print("frameData.foodFrameX[3]:\(frameData.foodFrameX[3]),frameData.foodFrameY[3]:\(frameData.foodFrameY[3])")
+                    print("frameData.foodFrameX[4]:\(frameData.foodFrameX[4]),frameData.foodFrameY[4]:\(frameData.foodFrameY[4])")
+                    print("frameData.foodFrameX[5]:\(frameData.foodFrameX[5]),frameData.foodFrameY[5]:\(frameData.foodFrameY[5])")
+                    print("frameData.foodFrameX[6]:\(frameData.foodFrameX[6]),frameData.foodFrameY[6]:\(frameData.foodFrameY[6])")
+                   
+                    intersectionReturn = judgeIntersection(objectX: frameData.nowCharacterFrameX[0], objectY: frameData.nowCharacterFrameY[0])
+                    
+                    if  intersectionReturn == 10{
+                        print("10")
+                    }else if intersectionReturn == 0{
                         
-                }).position(x: 50, y: 290)
-                //左
-                Button(action: {
-                    
-                    myOffset.width = newPosition[0].width - footStep
-                    newPosition[0] = myOffset
-                    frameData.nowCharacterFrameX[0] = frameData.characterFrame[0].origin.x+newPosition[0].width//移動後座標
-                    
-                    setLocation(location: Location(name: "\(userName)", x: myOffset.width, y: myOffset.height))
-                    
-                    print("character at :")
-                    print(frameData.nowCharacterFrameX[0],frameData.nowCharacterFrameY[0])
-                }, label: {
-                    Image(systemName: "chevron.left.circle.fill")
-                        .resizable()
-                        .frame(width: 50, height: 50)
+                        print("洗菜 : 0")
                         
-                }).position(x: 0, y: 340)
-                //右
-                Button(action: {
-                    myOffset.width = newPosition[0].width + footStep
-                    newPosition[0] = myOffset
-                    frameData.nowCharacterFrameX[0] = frameData.characterFrame[0].origin.x+newPosition[0].width//移動後座標
-                    setLocation(location: Location(name: "\(userName)", x: myOffset.width, y: myOffset.height))
-                    
-                    print("right at :")
-                    print(frameData.nowCharacterFrameX[0],frameData.nowCharacterFrameY[0])
-                }, label: {
-                    Image(systemName: "chevron.right.circle.fill")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                }).position(x: 100, y: 340)
-                //下
-                Button(action: {
-                    
-                    myOffset.height = newPosition[0].height + footStep
-                    newPosition[0] = myOffset
-                    frameData.nowCharacterFrameY[0] = frameData.characterFrame[0].origin.y+newPosition[0].height//移動後座標
-                    setLocation(location: Location(name: "\(userName)", x: myOffset.width, y: myOffset.height))
-                    
-                    
-                    print("down :")
-                    print(frameData.nowCharacterFrameX[0],frameData.nowCharacterFrameY[0])
-                    
-                }, label: {
-                    Image(systemName: "chevron.down.circle.fill")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                }).position(x: 50, y: 390)
-                
-//功能鍵//////////////////////////////
-                Group{
-                    Button(action: {
-                        ifTimeUp()
-                        
-                        intersectionReturn = judgeIntersection(objectX: frameData.nowCharacterFrameX[0], objectY: frameData.nowCharacterFrameY[0])
-                        
-                        if  intersectionReturn == 10{
-                            print("10")
-                        }else if intersectionReturn == 0{
-                            
-                            print("洗菜 : 0")
-                            
-                            if tapTimes_washVegetable < tapGoal_wash{
-                                tapTimes_washVegetable += 1
-                                withAnimation(.default) {
-                                    self.dropCircleColorChanged_vegetable.toggle()
-                                    self.dropColorChanged_vegetable.toggle()
-                                    self.dropSizeChanged_vegetable.toggle()
-                                }
-                            }else if tapTimes_washVegetable == tapGoal_wash{
-                                tapTimes_washVegetable = 0
-                                cutVegetable += 1
-                                
+                        if tapTimes_washVegetable < tapGoal_wash{
+                            tapTimes_washVegetable += 1
+                            withAnimation(.default) {
+                                self.dropCircleColorChanged_vegetable.toggle()
+                                self.dropColorChanged_vegetable.toggle()
+                                self.dropSizeChanged_vegetable.toggle()
                             }
-                        }else if intersectionReturn == 2{
+                        }else if tapTimes_washVegetable == tapGoal_wash{
+                            tapTimes_washVegetable = 0
+                            cutVegetable += 1
                             
-                            print("洗菜 : 2")
-                            if tapTimes_washTomato < tapGoal_wash{
-                                tapTimes_washTomato += 1
-                                
-                                withAnimation(.default) {
-                                    
-                                    dropCircleColorChanged_tomato.toggle()
-                                    dropColorChanged_tomato.toggle()
-                                    dropSizeChanged_tomato.toggle()
- 
-                                }
-                                
-                            }else if tapTimes_washTomato == tapGoal_wash{
-                                tapTimes_washTomato = 0
-                                cutTomato += 1
-                            }
                         }
-                        setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin,tapTimes_washVegetable:tapTimes_washVegetable, tapTimes_washTomato:tapTimes_washTomato,gameStart: gameStart))
+                    }else if intersectionReturn == 2{
                         
-                    }, label: {
-                        Text("洗菜")
-                            .padding(7)
-                            .padding(.horizontal, 25)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                            .padding(.horizontal, 10)
-                    }).position(x: 750, y: 300)
-                    
-                    Button(action: {
-                        
-                        ifTimeUp()
-                        
-                        intersectionReturn = judgeIntersection(objectX: frameData.nowCharacterFrameX[0], objectY: frameData.nowCharacterFrameY[0])
-                        
-                        if  intersectionReturn == 10{
-                            print("10")
-                        }else if intersectionReturn == 1{
-                            if nextAction == "放下" && takeWhat == "蔬菜"{
-                                print("intersect : 1 ,放下")
-                                ifTake.toggle()
-                                cutVegetable += 1
-                                takeWhat = ""
-                                nextAction = "拿取"
-                            }else if nextAction == "拿取" && cutVegetable>0{
-                                print("intersect : 1 ,拿取")
-                                ifTake.toggle()
-                                cutVegetable -= 1
-                                takeWhat = "蔬菜"
-                                nextAction = "放下"
-                            }
-                        }else if intersectionReturn == 3{
-                            
-                            if nextAction == "放下" && takeWhat == "番茄"{
-                                print("intersect : 3 ,放下")
-                                ifTake.toggle()
-                                cutTomato += 1
-                                takeWhat = ""
-                                nextAction = "拿取"
-                            }else if nextAction == "拿取" && cutTomato>0 {
-                                print("intersect : 3 ,拿取")
-                                ifTake.toggle()
-                                cutTomato -= 1
-                                takeWhat = "番茄"
-                                nextAction = "放下"
-                            }
-                        }else if intersectionReturn == 4{
-                            
-                            if nextAction == "放下" && takeWhat == "番茄"{
-                                print("intersect : 5 ,放下")
-                                ifTake.toggle()
-                                cutTomatoForCook += 1
-                                takeWhat = ""
-                                nextAction = "拿取"
-                            }else if nextAction == "拿取" && cutTomatoForCook>0 {
-                                print("intersect : 5 ,拿取")
-                                ifTake.toggle()
-                                cutTomatoForCook -= 1
-                                takeWhat = "番茄"
-                                nextAction = "放下"
-                            }
-
-                        }else if intersectionReturn == 5{
-                            if nextAction == "放下" && takeWhat == "蔬菜"{
-                                print("intersect : 4 ,放下")
-                                ifTake.toggle()
-                                cutVegetableForCook += 1
-                                takeWhat = ""
-                                nextAction = "拿取"
-                            }else if nextAction == "拿取" && cutVegetableForCook>0 {
-                                print("intersect : 4 ,拿取")
-                                ifTake.toggle()
-                                cutVegetableForCook -= 1
-                                takeWhat = "蔬菜"
-                                nextAction = "放下"
-                            }
-
-                        }else if intersectionReturn == 6{
-                            
-                            if nextAction == "放下" && takeWhat == "蔬菜"{
-                                
-                                print("intersect : 6 ,放下蔬菜")
-                                ifTake.toggle()
-                                cookingVegetableNum += 1
-                                takeWhat = ""
-                                nextAction = "拿取"
-                            }else if nextAction == "拿取" && cookingVegetableNum>0 {
-                                print("intersect : 6 ,拿取蔬菜")
-                                ifTake.toggle()
-                                cookingVegetableNum -= 1
-                                takeWhat = "蔬菜"
-                                nextAction = "放下"
-                            }else if nextAction == "放下" && takeWhat == "番茄"{
-                                print("intersect : 6 ,放下番茄")
-                                ifTake.toggle()
-                                cookingTomatoNum += 1
-                                takeWhat = ""
-                                nextAction = "拿取"
-                            }else if nextAction == "拿取" && cookingTomatoNum>0 {
-                                print("intersect : 6 ,拿取番茄")
-                                ifTake.toggle()
-                                cookingTomatoNum -= 1
-                                takeWhat = "番茄"
-                                nextAction = "放下"
-                            }
-                        }else if intersectionReturn == 100{
-                            print("no intersect")
-                        }else{
-                        }
-                        setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin,tapTimes_washVegetable:tapTimes_washVegetable, tapTimes_washTomato:tapTimes_washTomato,gameStart: gameStart))
-                        
-                    }, label: {
-                        HStack{
-                            if nextAction == "拿取" && takeWhat == ""{
-                                Text("拿取:")
-                                    .padding(7)
-                                    .padding(.horizontal, 25)
-                                    .background(Color(.systemGray6))
-                                    .cornerRadius(8)
-                                    .padding(.horizontal, 10)
-                                
-                            }else if nextAction == "放下" && takeWhat == "番茄"{
-                                Text("放下:")
-                                    .padding(7)
-                                    .padding(.horizontal, 25)
-                                    .background(Color(.systemGray6))
-                                    .cornerRadius(8)
-                                    .padding(.horizontal, 10)
-                                    .offset(x:-20,y:0)
-                                Text("番茄")
-                                    .padding(7)
-                                    .padding(.horizontal, 5)
-                                    .background(Color(.systemGray6))
-                                    .cornerRadius(8)
-                                    .offset(x:-70,y:0)
-                            }else if nextAction == "放下" && takeWhat == "蔬菜"{
-                                Text("放下:")
-                                    .padding(7)
-                                    .padding(.horizontal, 25)
-                                    .background(Color(.systemGray6))
-                                    .cornerRadius(8)
-                                    .padding(.horizontal, 10)
-                                    .offset(x:-20,y:0)
-                                Text("青菜")
-                                    .padding(7)
-                                    .padding(.horizontal, 5)
-                                    .background(Color(.systemGray6))
-                                    .cornerRadius(8)
-                                    .offset(x:-70,y:0)
-                            }
-                        }
-                        
-                    }).position(x: 750, y: 350)
-                    
-                    
-                    Button(action: {
-                        ifTimeUp()
-                        
-                        
-                        if tapTimes_cook < tapGoal_cook{
+                        print("洗菜 : 2")
+                        if tapTimes_washTomato < tapGoal_wash{
+                            tapTimes_washTomato += 1
                             
                             withAnimation(.default) {
-                                self.flameCircleColorChanged.toggle()
-                                self.flameColorChanged.toggle()
-                                self.flameSizeChanged.toggle()
-                            }
-                            tapTimes_cook += 1
-                            
-                        }else if tapTimes_cook == tapGoal_cook{
-                            tapTimes_cook = 0
-                            
-                            if orderTomatoNum == cookingTomatoNum && orderVegetableNum == cookingVegetableNum {
-                                print("出菜成功")
-                                var correctPoint = orderTomatoNum + orderVegetableNum
-                                print("\(orderTomatoNum + orderVegetableNum)")
-                                print("\(100*(orderTomatoNum + orderVegetableNum))")
                                 
-                                coin += (100*(orderTomatoNum + orderVegetableNum))
-                                print("\(coin)")
-                                cookingTomatoNum = 0
-                                cookingVegetableNum = 0
-                                updateOrder()
-                                correctNum+=1
+                                dropCircleColorChanged_tomato.toggle()
+                                dropColorChanged_tomato.toggle()
+                                dropSizeChanged_tomato.toggle()
+
                             }
+                            
+                        }else if tapTimes_washTomato == tapGoal_wash{
+                            tapTimes_washTomato = 0
+                            cutTomato += 1
                         }
-                        
-                        print("coin:\(coin)")
-                        
-                        setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin,tapTimes_washVegetable:tapTimes_washVegetable, tapTimes_washTomato:tapTimes_washTomato,gameStart: gameStart))
-                        
-                    }, label: {
-                        
-                        
-                        Text("做菜")
-                            .padding(7)
-                            .padding(.horizontal, 25)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                            .padding(.horizontal, 10)
-                    }).position(x: 750, y: 400)
+                    }
+                    setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin,tapTimes_washVegetable:tapTimes_washVegetable, tapTimes_washTomato:tapTimes_washTomato,gameStart: gameStart))
                     
-                }
+                }, label: {
+                    Text("洗菜")
+                        .padding(7)
+                        .padding(.horizontal, 25)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.horizontal, 10)
+                }).position(x: 750, y: 300)
                 
+                Button(action: {
+                    
+                    intersectionReturn = judgeIntersection(objectX: frameData.nowCharacterFrameX[0], objectY: frameData.nowCharacterFrameY[0])
+                    
+                    if  intersectionReturn == 10{
+                        print("10")
+                    }else if intersectionReturn == 1{
+                        if nextAction == "放下" && takeWhat == "蔬菜"{
+                            print("intersect : 1 ,放下")
+                            ifTake.toggle()
+                            cutVegetable += 1
+                            takeWhat = ""
+                            nextAction = "拿取"
+                        }else if nextAction == "拿取" && cutVegetable>0{
+                            print("intersect : 1 ,拿取")
+                            ifTake.toggle()
+                            cutVegetable -= 1
+                            takeWhat = "蔬菜"
+                            nextAction = "放下"
+                        }
+                    }else if intersectionReturn == 3{
+                        
+                        if nextAction == "放下" && takeWhat == "番茄"{
+                            print("intersect : 3 ,放下")
+                            ifTake.toggle()
+                            cutTomato += 1
+                            takeWhat = ""
+                            nextAction = "拿取"
+                        }else if nextAction == "拿取" && cutTomato>0 {
+                            print("intersect : 3 ,拿取")
+                            ifTake.toggle()
+                            cutTomato -= 1
+                            takeWhat = "番茄"
+                            nextAction = "放下"
+                        }
+                    }else if intersectionReturn == 4{
+                        
+                        if nextAction == "放下" && takeWhat == "番茄"{
+                            print("intersect : 5 ,放下")
+                            ifTake.toggle()
+                            cutTomatoForCook += 1
+                            takeWhat = ""
+                            nextAction = "拿取"
+                        }else if nextAction == "拿取" && cutTomatoForCook>0 {
+                            print("intersect : 5 ,拿取")
+                            ifTake.toggle()
+                            cutTomatoForCook -= 1
+                            takeWhat = "番茄"
+                            nextAction = "放下"
+                        }
+
+                    }else if intersectionReturn == 5{
+                        if nextAction == "放下" && takeWhat == "蔬菜"{
+                            print("intersect : 4 ,放下")
+                            ifTake.toggle()
+                            cutVegetableForCook += 1
+                            takeWhat = ""
+                            nextAction = "拿取"
+                        }else if nextAction == "拿取" && cutVegetableForCook>0 {
+                            print("intersect : 4 ,拿取")
+                            ifTake.toggle()
+                            cutVegetableForCook -= 1
+                            takeWhat = "蔬菜"
+                            nextAction = "放下"
+                        }
+
+                    }else if intersectionReturn == 6{
+                        
+                        if nextAction == "放下" && takeWhat == "蔬菜"{
+                            
+                            print("intersect : 6 ,放下蔬菜")
+                            ifTake.toggle()
+                            cookingVegetableNum += 1
+                            takeWhat = ""
+                            nextAction = "拿取"
+                        }else if nextAction == "拿取" && cookingVegetableNum>0 {
+                            print("intersect : 6 ,拿取蔬菜")
+                            ifTake.toggle()
+                            cookingVegetableNum -= 1
+                            takeWhat = "蔬菜"
+                            nextAction = "放下"
+                        }else if nextAction == "放下" && takeWhat == "番茄"{
+                            print("intersect : 6 ,放下番茄")
+                            ifTake.toggle()
+                            cookingTomatoNum += 1
+                            takeWhat = ""
+                            nextAction = "拿取"
+                        }else if nextAction == "拿取" && cookingTomatoNum>0 {
+                            print("intersect : 6 ,拿取番茄")
+                            ifTake.toggle()
+                            cookingTomatoNum -= 1
+                            takeWhat = "番茄"
+                            nextAction = "放下"
+                        }
+                    }else if intersectionReturn == 100{
+                        print("no intersect")
+                    }else{
+                    }
+                    setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin,tapTimes_washVegetable:tapTimes_washVegetable, tapTimes_washTomato:tapTimes_washTomato,gameStart: gameStart))
+                    
+                }, label: {
+                    HStack{
+                        if nextAction == "拿取" && takeWhat == ""{
+                            Text("拿取:")
+                                .padding(7)
+                                .padding(.horizontal, 25)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .padding(.horizontal, 10)
+                            
+                        }else if nextAction == "放下" && takeWhat == "番茄"{
+                            Text("放下:")
+                                .padding(7)
+                                .padding(.horizontal, 25)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .padding(.horizontal, 10)
+                                .offset(x:-20,y:0)
+                            Text("番茄")
+                                .padding(7)
+                                .padding(.horizontal, 5)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .offset(x:-70,y:0)
+                        }else if nextAction == "放下" && takeWhat == "蔬菜"{
+                            Text("放下:")
+                                .padding(7)
+                                .padding(.horizontal, 25)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .padding(.horizontal, 10)
+                                .offset(x:-20,y:0)
+                            Text("青菜")
+                                .padding(7)
+                                .padding(.horizontal, 5)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .offset(x:-70,y:0)
+                        }
+                    }
+                    
+                }).position(x: 750, y: 350)
+                
+                
+                Button(action: {
+                    
+                    if tapTimes_cook < tapGoal_cook{
+                        
+                        withAnimation(.default) {
+                            self.flameCircleColorChanged.toggle()
+                            self.flameColorChanged.toggle()
+                            self.flameSizeChanged.toggle()
+                        }
+                        tapTimes_cook += 1
+                        
+                    }else if tapTimes_cook == tapGoal_cook{
+                        tapTimes_cook = 0
+                        
+                        if orderTomatoNum == cookingTomatoNum && orderVegetableNum == cookingVegetableNum {
+                            print("出菜成功")
+                            var correctPoint = orderTomatoNum + orderVegetableNum
+                            print("\(orderTomatoNum + orderVegetableNum)")
+                            print("\(100*(orderTomatoNum + orderVegetableNum))")
+                            
+                            coin += (100*(orderTomatoNum + orderVegetableNum))
+                            print("\(coin)")
+                            cookingTomatoNum = 0
+                            cookingVegetableNum = 0
+                            updateOrder()
+                            correctNum+=1
+                        }
+                    }
+                    
+                    print("coin:\(coin)")
+                    
+                    setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin,tapTimes_washVegetable:tapTimes_washVegetable, tapTimes_washTomato:tapTimes_washTomato,gameStart: gameStart))
+                    
+                }, label: {
+                    
+                    
+                    Text("做菜")
+                        .padding(7)
+                        .padding(.horizontal, 25)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.horizontal, 10)
+                }).position(x: 750, y: 400)
                 
             }
-//人物位置
+//////人物位置
             ImageView(withURL: "\(URLString_Player1)")
                 .scaledToFit()
                 .frame(width: 50, height: 50)
@@ -1012,9 +1025,12 @@ struct GameView: View {
                 .offset(offset3)
             
             
+            
+            
         }.onAppear(perform:{
             
-            
+            myOffset.width = 0
+            myOffset.height = 0
             
             if ifTake == false{
                 nextAction = "拿取"
@@ -1107,9 +1123,9 @@ struct GameView: View {
     }
 }
 
-struct GameView_Previews: PreviewProvider {
+struct GameView2_Previews: PreviewProvider {
     static var previews: some View {
-        GameView(roomDocumentName: .constant("Room2"))
+        GameView2(roomDocumentName: .constant("Room2"))
             .previewLayout(.fixed(width: 844, height: 390))
             .previewDevice("iPhone 11")
             .environment(\.horizontalSizeClass, .regular)
@@ -1117,4 +1133,5 @@ struct GameView_Previews: PreviewProvider {
     }
     
 }
+
 

@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Combine
 
 struct RoomState: Codable, Identifiable {//紀錄firebase上waiting room得值
     @DocumentID var id: String?
@@ -50,7 +51,14 @@ struct Food: Codable, Identifiable {
     var orderVegetableNum : Int
     var orderTomatoNum : Int 
     
-    var coin : Int = 0
+    var coin : Int 
+    
+    
+    var tapTimes_washVegetable = 0
+    var tapTimes_washTomato = 0
+    
+    var gameStart : Int = 0
+    
     
 }
 //人物到的櫃子會亮

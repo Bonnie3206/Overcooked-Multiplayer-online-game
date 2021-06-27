@@ -25,7 +25,7 @@ extension AVPlayer{
     
     static func setupBgMusic(){
         
-        guard let url = Bundle.main.url(forResource: "鄉村男孩", withExtension: "mp3")else{fatalError("Failed to find dound file.")}
+        guard let url = Bundle.main.url(forResource: "背景音樂", withExtension: "mp3")else{fatalError("Failed to find dound file.")}
         let item = AVPlayerItem(url: url)
         bgPlayerLooper = AVPlayerLooper(player: bgQueuePlayer, templateItem: item)
     }

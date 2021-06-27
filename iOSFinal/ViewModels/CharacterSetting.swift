@@ -33,24 +33,7 @@ func createCharacterPositon(name:String,x:CGFloat,y:CGFloat) {
                 print(error)
             }
 }
-func getPlayerCoin(name:String){//從creatCharacter(in CharacterSet)讀取後存入room(in CharacterView)
-    let db = Firestore.firestore()
-    var urll = ""
-    db.collection("UserData").document("\(name)").getDocument { document, error in
-          
-        
-        guard let document = document,document.exists,
-               var userData = try? document.data(as: PlayerData.self) else {return()}
-        do{
-            print("myURL:\(userData.URLString)")
-            urll = "\(userData.URLString)"
-            print("內:\(urll)")
-            //return urll
-        }
-        
-    }
-    
-}
+
 func setPlayerCoin(UserData: PlayerData) {
     let db = Firestore.firestore()
         

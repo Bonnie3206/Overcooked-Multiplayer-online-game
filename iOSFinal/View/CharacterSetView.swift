@@ -79,221 +79,227 @@ struct CharacterSetView: View
         }
     }
     var body: some View {
-        VStack{
-            HStack{
-                Image("角色設定title")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 50, height: 50)
-                Text("來設定遊戲角色吧!")
-                    .font(.largeTitle)
-            }
-            HStack{
-                
-                if let uiImage = uiImage {
-                    Image(uiImage: uiImage)
+        ZStack{
+            Image("房間背景")
+                .resizable()
+                .scaledToFit()
+                .scaleEffect(1.1)
+            VStack{
+                HStack{
+                    Image("角色設定title")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                    Text("來設定遊戲角色吧!")
+                        .font(.largeTitle)
                 }
-                VStack{
+                HStack{
                     
-                    HStack {
-                        
-                        Button(action: {
-                            if faceNum > 1{
-                                faceNum -= 1
-                            }
-                            changeFace = "bearFace\(faceNum)"
-                            uiImage = demoView.snapshot()
-                            
-                        }, label: {
-                            Image(systemName: "chevron.backward.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            
-                        })
-                        Text("face")
-                        Button(action: {
-                            
-                            if faceNum < faceTotal{
-                                faceNum += 1
-                                
-                            }
-                            changeFace = "bearFace\(faceNum)"
-                            uiImage = demoView.snapshot()
-                            
-                        }, label: {
-                            Image(systemName: "chevron.right.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            
-                        })
-                        
+                    if let uiImage = uiImage {
+                        Image(uiImage: uiImage)
                     }
-                    HStack {
+                    VStack{
                         
-                        Button(action: {
-                            if bodyNum > 1{
-                                bodyNum -= 1
-                            }
-                            changeBody = "bearBody\(bodyTotal)"
-                            uiImage = demoView.snapshot()
+                        HStack {
                             
-                        }, label: {
-                            Image(systemName: "chevron.backward.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            //.foregroundColor(.purple)
-                        })
-                        Text("body")
-                        Button(action: {
-                            
-                            if bodyNum < bodyTotal{
-                                bodyNum += 1
-                            }
-                            changeBody = "bearBody\(bodyNum)"
-                            uiImage = demoView.snapshot()
-                            // UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
-                            
-                            
-                        }, label: {
-                            Image(systemName: "chevron.right.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            //.foregroundColor(.purple)
-                            
-                        })
-                        
-                    }
-                    HStack {
-                        
-                        Button(action: {
-                            if hairNum > 1{
-                                hairNum -= 1
-                            }
-                            changeHair = "bearHair\(hairNum)"
-                            uiImage = demoView.snapshot()
-                            //UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
-                        }, label: {
-                            Image(systemName: "chevron.backward.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            
-                        })
-                        Text("hair")
-                        Button(action: {
-                            
-                            if hairNum < hairTotal{
-                                hairNum += 1
-                                
-                            }
-                            changeHair = "bearHair\(hairNum)"
-                            uiImage = demoView.snapshot()
-                           
-                        }, label: {
-                            Image(systemName: "chevron.right.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            //.foregroundColor(.purple)
-                        })
-                        
-                    }
-                    
-                    HStack{
-                        Image("角色設定icon")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 50)
-                        TextField("請輸入名稱",text:$characterName)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .frame(width: 300)
-                    }
-                    HStack{
-                        Image("角色設定icon")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 50)
-                        
-                        Picker(selection: $genderSelect, label: Text("性別")) {
-                            Text(gender[0]).tag("男")
-                            Text(gender[1]).tag("女")
-                            
-                        }.pickerStyle(SegmentedPickerStyle())
-                        .frame(width: 300)
-                        .shadow(radius: 5)
-                        
-                    }
-                }
-                
-                
-            }
-            
-            Spacer()
-            HStack{
-                Button(action: {
-                    changeFace = ["bearFace1","bearFace2","bearFace3","bearFace4","bearFace5","bearFace6"].randomElement()!
-                    changeBody = ["bearBody1","bearBody2","bearBody3","bearBody4","bearBody5","bearBody6"].randomElement()!
-                    changeHair = ["bearHair1", "bearHair2", "bearHair3", "bearHair4", "bearHair5", "bearHair6", "bearHair7", "bearHair8"].randomElement()!
-                    uiImage = demoView.snapshot()
-                    
-                }, label: {
-                    Text("隨機")
-                        .padding(7)
-                        .padding(.horizontal, 25)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .padding(.horizontal, 10)
-                })
-                Spacer()
-                Button(action:{
-                    
-                    uiImage = demoView.snapshot()
-                    UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
-                    
-                    uploadPhoto(image: uiImage!) { result in
-                        switch result {
-                        case .success(let url):
-                            setUserPhoto(url: url)
-                            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                            
-                            changeRequest?.displayName = "\(characterName)"
-                            changeRequest?.commitChanges(completion: { error in
-                                guard error == nil else {
-                                    print(error?.localizedDescription)
-                                    return
+                            Button(action: {
+                                if faceNum > 0{
+                                    faceNum -= 1
                                 }
-                                URLString = currentUser?.photoURL
+                                changeFace = "bearFace\(faceNum)"
+                                uiImage = demoView.snapshot()
                                 
-                                createCharacter(name: characterName, URLString: URLString!,bestCoin_map1:0, coin: 0)
-                                //寫入URLTurnToString
-                                goCharacterView = true
+                            }, label: {
+                                Image(systemName: "chevron.backward.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
                                 
                             })
-                            print("success")
+                            Text("face")
+                            Button(action: {
+                                
+                                if faceNum < faceTotal{
+                                    faceNum += 1
+                                    
+                                }
+                                changeFace = "bearFace\(faceNum)"
+                                uiImage = demoView.snapshot()
+                                
+                            }, label: {
+                                Image(systemName: "chevron.right.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                                
+                            })
                             
-                        case .failure(let error):
-                            print(error)
+                        }
+                        HStack {
+                            
+                            Button(action: {
+                                if bodyNum > 1{
+                                    bodyNum -= 1
+                                }
+                                changeBody = "bearBody\(bodyTotal)"
+                                uiImage = demoView.snapshot()
+                                
+                            }, label: {
+                                Image(systemName: "chevron.backward.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                                //.foregroundColor(.purple)
+                            })
+                            Text("body")
+                            Button(action: {
+                                
+                                if bodyNum < bodyTotal{
+                                    bodyNum += 1
+                                }
+                                changeBody = "bearBody\(bodyNum)"
+                                uiImage = demoView.snapshot()
+                                // UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
+                                
+                                
+                            }, label: {
+                                Image(systemName: "chevron.right.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                                //.foregroundColor(.purple)
+                                
+                            })
+                            
+                        }
+                        HStack {
+                            
+                            Button(action: {
+                                if hairNum > 1{
+                                    hairNum -= 1
+                                }
+                                changeHair = "bearHair\(hairNum)"
+                                uiImage = demoView.snapshot()
+                                //UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
+                            }, label: {
+                                Image(systemName: "chevron.backward.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                                
+                            })
+                            Text("hair")
+                            Button(action: {
+                                
+                                if hairNum < hairTotal{
+                                    hairNum += 1
+                                    
+                                }
+                                changeHair = "bearHair\(hairNum)"
+                                uiImage = demoView.snapshot()
+                               
+                            }, label: {
+                                Image(systemName: "chevron.right.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                                //.foregroundColor(.purple)
+                            })
+                            
+                        }
+                        
+                        HStack{
+                            Image("角色設定icon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 50)
+                            TextField("請輸入名稱",text:$characterName)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .frame(width: 300)
+                        }
+                        HStack{
+                            Image("角色設定icon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 50)
+                            
+                            Picker(selection: $genderSelect, label: Text("性別")) {
+                                Text(gender[0]).tag("男")
+                                Text(gender[1]).tag("女")
+                                
+                            }.pickerStyle(SegmentedPickerStyle())
+                            .frame(width: 300)
+                            .shadow(radius: 5)
+                            
                         }
                     }
                     
                     
-                    
-                } , label: {
-                    
-                    Text("確定")
-                        .padding(7)
-                        .padding(.horizontal, 25)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .padding(.horizontal, 10)
-                })
-            }.padding(EdgeInsets(top: 10, leading: 250, bottom: 5, trailing: 250))
-            
-            
+                }
+                
+                Spacer()
+                HStack{
+                    Button(action: {
+                        changeFace = ["bearFace1","bearFace2","bearFace3","bearFace4","bearFace5","bearFace6"].randomElement()!
+                        changeBody = ["bearBody1","bearBody2","bearBody3","bearBody4","bearBody5","bearBody6"].randomElement()!
+                        changeHair = ["bearHair1", "bearHair2", "bearHair3", "bearHair4", "bearHair5", "bearHair6", "bearHair7", "bearHair8"].randomElement()!
+                        uiImage = demoView.snapshot()
+                        
+                    }, label: {
+                        Text("隨機")
+                            .padding(7)
+                            .padding(.horizontal, 35)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .padding(.horizontal, 25)
+                        
+                    })
+                    Button(action:{
+                        
+                        uiImage = demoView.snapshot()
+                        UIImageWriteToSavedPhotosAlbum(uiImage!, nil, nil, nil)
+                        
+                        uploadPhoto(image: uiImage!) { result in
+                            switch result {
+                            case .success(let url):
+                                setUserPhoto(url: url)
+                                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                                
+                                changeRequest?.displayName = "\(characterName)"
+                                changeRequest?.commitChanges(completion: { error in
+                                    guard error == nil else {
+                                        print(error?.localizedDescription)
+                                        return
+                                    }
+                                    URLString = currentUser?.photoURL
+                                    
+                                    createCharacter(name: characterName, URLString: URLString!,bestCoin_map1:0, coin: 0)
+                                    //寫入URLTurnToString
+                                    goCharacterView = true
+                                    
+                                })
+                                print("success")
+                                
+                            case .failure(let error):
+                                print(error)
+                            }
+                        }
+                        
+                        
+                        
+                    } , label: {
+                        
+                        Text("確定")
+                            .padding(7)
+                            .padding(.horizontal, 35)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .padding(.horizontal, 25)
+                    })
+                }//.padding(EdgeInsets(top: 10, leading: 250, bottom: 5, trailing: 250))
+                
+                
+            }
         }.onAppear(perform:{
             changeFace = "bearface1"
             changeBody = "bearbody1"

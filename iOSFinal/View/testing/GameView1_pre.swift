@@ -16,7 +16,7 @@ import AppTrackingTransparency
 import AVFoundation
 import Combine
 
-struct GameView: View {
+struct GameView1_pre: View {
     
     @Binding var roomDocumentName:String
     
@@ -232,12 +232,10 @@ struct GameView: View {
             print("timeUp")
             gameStart = 0
             
-            /*
             if goEndView == false{
-                
+                setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin,tapTimes_washVegetable:tapTimes_washVegetable, tapTimes_washTomato:tapTimes_washTomato,gameStart:gameStart))
             }
-            */
-            setFood(food:Food(room: "\(roomDocumentName)", vegetable : vegetable,tomato : tomato,cutVegetable : cutVegetable,cutTomato:cutTomato,cutVegetableForCook:cutVegetableForCook,cutTomatoForCook : cutTomatoForCook,cookingVegetableNum : cookingVegetableNum, cookingTomatoNum : cookingTomatoNum,orderVegetableNum : orderVegetableNum,orderTomatoNum:orderTomatoNum,coin : coin,tapTimes_washVegetable:tapTimes_washVegetable, tapTimes_washTomato:tapTimes_washTomato,gameStart:gameStart))
+            
         }
         if gameStart == 0 {
             remainingTime = 0
@@ -735,7 +733,6 @@ struct GameView: View {
 //功能鍵//////////////////////////////
                 Group{
                     Button(action: {
-                        ifTimeUp()
                         
                         intersectionReturn = judgeIntersection(objectX: frameData.nowCharacterFrameX[0], objectY: frameData.nowCharacterFrameY[0])
                         
@@ -788,8 +785,6 @@ struct GameView: View {
                     }).position(x: 750, y: 300)
                     
                     Button(action: {
-                        
-                        ifTimeUp()
                         
                         intersectionReturn = judgeIntersection(objectX: frameData.nowCharacterFrameX[0], objectY: frameData.nowCharacterFrameY[0])
                         
@@ -934,8 +929,6 @@ struct GameView: View {
                     
                     
                     Button(action: {
-                        ifTimeUp()
-                        
                         
                         if tapTimes_cook < tapGoal_cook{
                             
@@ -1107,9 +1100,9 @@ struct GameView: View {
     }
 }
 
-struct GameView_Previews: PreviewProvider {
+struct GameView1_pre_Previews: PreviewProvider {
     static var previews: some View {
-        GameView(roomDocumentName: .constant("Room2"))
+        GameView1_pre(roomDocumentName: .constant("Room2"))
             .previewLayout(.fixed(width: 844, height: 390))
             .previewDevice("iPhone 11")
             .environment(\.horizontalSizeClass, .regular)
@@ -1117,4 +1110,5 @@ struct GameView_Previews: PreviewProvider {
     }
     
 }
+
 

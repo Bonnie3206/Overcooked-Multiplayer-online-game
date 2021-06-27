@@ -26,13 +26,16 @@ struct iOSFinalApp: App {
     var body: some Scene {
         WindowGroup {
             //FirstView(playerSignInMail: "", playerSignInPassword: "", searchRoomName: "")
-            //CharacterSetView()
-            //EnterRoomView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")
+            //CharacterSetView(searchRoomName: "Room2")
+            EnterRoomView(roomName: "", creatRoomName: "", SearchRoomName: "", searchRoomPassword: "", crearhRoomPassword: "")
             //GameView(roomDocumentName: .constant("Room2"))
-            //Test0617View()
-            //WaitingRoomView(searchRoomName: "", creatRoomName: "", crearhRoomPassword: "", roomDocumentName: "")
+            //GameView2(roomDocumentName: .constant("Room2"))
+            //Test0622View()
+            //WaitingRoomView(searchRoomName: "Room2", creatRoomName: "Room2", crearhRoomPassword: "2", roomDocumentName: .constant("Room2"))
             //shuffleView()
-            EndView(roomDocumentName: .constant("Room2"))
+            //EndView(roomDocumentName: .constant("Room2"))
+            //IntroductionView()
+            //ChartsView()
         }
     }
 }

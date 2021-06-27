@@ -38,10 +38,14 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
+  - OMJoystick (0.6.0)
   - PromisesObjC (1.2.12)
+  - TILogger (1.1.1)
 
 DEPENDENCIES:
   - Google-Mobile-Ads-SDK
+  - OMJoystick
+  - TILogger
 
 SPEC REPOS:
   trunk:
@@ -50,7 +54,9 @@ SPEC REPOS:
     - GoogleUserMessagingPlatform
     - GoogleUtilities
     - nanopb
+    - OMJoystick
     - PromisesObjC
+    - TILogger
 
 SPEC CHECKSUMS:
   Google-Mobile-Ads-SDK: 6f5c41bf73db1656e5b203ba9c31e3d0899a128d
@@ -58,8 +64,10 @@ SPEC CHECKSUMS:
   GoogleUserMessagingPlatform: ab890ce5f6620f293a21b6bdd82e416a2c73aeca
   GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  OMJoystick: 8d189700d9d2fbadc6706537710524511243ca86
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  TILogger: 61bec1fedf64c23f94baf82b27976a7909a9b435
 
-PODFILE CHECKSUM: cc0526a45dd40bf39445de494d32d423f460ee03
+PODFILE CHECKSUM: 1dff3d3731e3edf1fd7abfc4c91f88904a001586
 
 COCOAPODS: 1.10.1

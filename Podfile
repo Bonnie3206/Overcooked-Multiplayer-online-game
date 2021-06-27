@@ -7,6 +7,7 @@ target 'iOSFinal' do
 
   # Pods for iOSFinal
   pod 'Google-Mobile-Ads-SDK'
-
+  pod 'OMJoystick'
+  pod 'TILogger'
 
 end

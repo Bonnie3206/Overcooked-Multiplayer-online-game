@@ -16,9 +16,26 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         AVPlayer.setupBgMusic()
-        AVPlayer.bgQueuePlayer.volume = 0.2
+        AVPlayer.bgQueuePlayer.volume = 0.5
         AVPlayer.bgQueuePlayer.play()
         
         return true
     }
+}
+extension RewardedAdController: GADFullScreenContentDelegate {
+
+    func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        print(#function)
+    }
+
+    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        print(#function)
+    }
+
+    func ad(_ ad: GADFullScreenPresentingAd,
+            didFailToPresentFullScreenContentWithError error: Error) {
+        print(#function, error)
+
+    }
+
 }

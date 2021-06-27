@@ -29,12 +29,16 @@ struct EndView: View {
     @State private var totalCoins :Int = 0//玩家累積
     @State private var newTotalCoins :Int = 0//玩家新累積
     @State private var bestCoin_map1 :Int = 0//map1中最佳得分
+    @State private var ifshowedCoins = false
     
     @State private var goGameView = false
     @State private var showAdvertising = false
     @State private var showAdvertisingAlert = false
+    @State private var goChartsView = false
+    
     
     @State private var ad:GADRewardedAd?
+    let rewardedAdController = RewardedAdController()
     
     func loadAd() {
         let request = GADRequest()
@@ -60,59 +64,116 @@ struct EndView: View {
         }
     }
     var body: some View {
-        VStack{
-            
-            Text("此關得分:\(roomCoins)！")
-                
-            Button(action: {
-                
-                newTotalCoins = totalCoins + roomCoins
-                if bestCoin_map1 < roomCoins{
-                    bestCoin_map1 = roomCoins
-                }
-                setPlayerCoin(UserData: PlayerData(name: "\(userName)",URLString: userPhotoURL!, coin:newTotalCoins
-                ,bestCoin_map1 :bestCoin_map1))
-                
-                goGameView = true
+        ZStack{
+            Image("結束背景")
+                .resizable()
+                .scaledToFit()
+                .scaleEffect(3.2)
+            VStack{
                 
                 
-            }, label: {
-                Text("再玩一次")
-                    .padding(7)
-                    .padding(.horizontal, 25)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                    .padding(.horizontal, 10)
-            })
-            Button(action: {
-                showAdvertisingAlert = true
+                Text("餐廳打烊了，辛苦大廚啦～")
+                    .font(.system(size: 45, weight: .regular, design: .monospaced))
+                    .foregroundColor(Color.white)
+                    .offset(x:0,y:80)
                 
-                
-            }, label: {
-                Text("看廣告加分")
-                    .padding(7)
-                    .padding(.horizontal, 25)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                    .padding(.horizontal, 10)
-            }).alert(isPresented: $showAdvertisingAlert) { () -> Alert in
-                
-                Alert(title: Text("看廣告拿金幣500"), message: Text("要看完廣告才能得免費金幣喔"), dismissButton: .default(Text("確定"), action: {
-                    
-                    showAd()
-                    newTotalCoins = totalCoins + roomCoins
-                    newTotalCoins += 500
-                    if bestCoin_map1 < roomCoins{
-                        bestCoin_map1 = roomCoins
+                Rectangle()
+                    .foregroundColor(.white)
+                    .opacity(0.8)
+                    .cornerRadius(30)
+                    .frame(width: 400, height: 250, alignment: .center)
+                    .offset(x:0,y:50)
+                VStack{
+                    HStack{
+                        Text("此關得分:")
+                            .font(.system(size: 25, weight: .regular, design: .monospaced))
+                            .offset(x:0,y:-160)
+                        Text("\(roomCoins)")
+                            .font(.system(size: 25, weight: .regular, design: .monospaced))
+                            .offset(x:0,y:-160)
+                        
                     }
-                    setPlayerCoin(UserData: PlayerData(name: "\(userName)",URLString: userPhotoURL!, coin:newTotalCoins
-                    ,bestCoin_map1 :bestCoin_map1))
-                }))
+                    Button(action: {
+                        
+                        newTotalCoins = totalCoins + roomCoins
+                        if bestCoin_map1 < roomCoins{
+                            bestCoin_map1 = roomCoins
+                        }
+                        setPlayerCoin(UserData: PlayerData(name: "\(userName)",URLString: userPhotoURL!, coin:newTotalCoins
+                        ,bestCoin_map1 :bestCoin_map1))
+                        setFood(food:Food(room: "\(roomDocumentName)", vegetable : 0,tomato : 0,cutVegetable : 0,cutTomato:0,cutVegetableForCook:0,cutTomatoForCook : 0,cookingVegetableNum : 0, cookingTomatoNum : 0,orderVegetableNum : 0,orderTomatoNum:0,coin : 0,tapTimes_washVegetable:0, tapTimes_washTomato:0,gameStart: 0))
+                        
+                        goChartsView = true
+                        
+                        
+                    }, label: {
+                        Text("排行榜")
+                            .padding(7)
+                            .padding(.horizontal, 25)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .padding(.horizontal, 10)
+                            .frame(width: 400, height: 50, alignment: .center)
+                            
+                    }).offset(x:0,y:-120)
+                    Button(action: {
+                        
+                        newTotalCoins = totalCoins + roomCoins
+                        if bestCoin_map1 < roomCoins{
+                            bestCoin_map1 = roomCoins
+                        }
+                        setPlayerCoin(UserData: PlayerData(name: "\(userName)",URLString: userPhotoURL!, coin:newTotalCoins
+                        ,bestCoin_map1 :bestCoin_map1))
+                        setFood(food:Food(room: "\(roomDocumentName)", vegetable : 0,tomato : 0,cutVegetable : 0,cutTomato:0,cutVegetableForCook:0,cutTomatoForCook : 0,cookingVegetableNum : 0, cookingTomatoNum : 0,orderVegetableNum : 0,orderTomatoNum:0,coin : 0,tapTimes_washVegetable:0, tapTimes_washTomato:0,gameStart: 0))
+                        
+                        goGameView = true
+                        
+                        
+                    }, label: {
+                        Text("再玩一次")
+                            .padding(7)
+                            .padding(.horizontal, 25)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .padding(.horizontal, 10)
+                            .frame(width: 400, height: 50, alignment: .center)
+                            
+                    }).offset(x:0,y:-120)
+                    Button(action: {
+                        showAdvertisingAlert = true
+                        
+                        
+                    }, label: {
+                        Text("看廣告加分")
+                            .padding(7)
+                            .padding(.horizontal, 25)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .padding(.horizontal, 10)
+                            .frame(width: 400, height: 50, alignment: .center)
+                            
+                        
+                    }).offset(x:0,y:-100)
+                    .alert(isPresented: $showAdvertisingAlert) { () -> Alert in
+                        
+                        Alert(title: Text("看廣告拿金幣500"), message: Text("要看完廣告才能得免費金幣喔"), dismissButton: .default(Text("確定"), action: {
+                            ifshowedCoins = true
+                            rewardedAdController.showAd()
+                            roomCoins += 500
+                            newTotalCoins = totalCoins + roomCoins
+                            //newTotalCoins += 500
+                            if bestCoin_map1 < roomCoins{
+                                bestCoin_map1 = roomCoins
+                            }
+                            setPlayerCoin(UserData: PlayerData(name: "\(userName)",URLString: userPhotoURL!, coin:newTotalCoins
+                            ,bestCoin_map1 :bestCoin_map1))
+                        }))
+                    }
+                }
             }
-            
-        }.onAppear(
+        }
+        .onAppear(
             perform:{
-               
                 //取得角色資訊
                 userPhotoURL = (currentUser?.photoURL)
                 turnURLString = userPhotoURL!.absoluteString
@@ -134,21 +195,24 @@ struct EndView: View {
                         bestCoin_map1 = Int(player.bestCoin_map1)
                     }
                 }
+                
 //監聽房間得分
                 db.collection("food").document("\(roomDocumentName)").addSnapshotListener { snapshot, error in
                     
                     guard let snapshot = snapshot else { return }
                     guard let food = try? snapshot.data(as: Food.self) else { return }
                     
-                    queue.sync{
+                    if ifshowedCoins == false{
                         roomCoins = Int(food.coin)
                     }
                 }
-                loadAd()
+                rewardedAdController.loadAd()
+                
             })
         
         
         EmptyView().sheet(isPresented: $goGameView,content:{GameView(roomDocumentName: $roomDocumentName)})
+        EmptyView().sheet(isPresented: $goChartsView,content:{ChartsView()})
     }
 }
 

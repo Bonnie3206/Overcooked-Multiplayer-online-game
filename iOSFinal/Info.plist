@@ -28,6 +28,10 @@
 	<string>可以將照片存到你的 album 嗎</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>your data will be used to deliver personalized ads to you</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>HannotateTC-W5</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

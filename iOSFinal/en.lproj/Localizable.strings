@@ -1,8 +1,5 @@
 /* No comment provided by engineer. */
-"   註冊" = "   Register";
-
-/* No comment provided by engineer. */
-"角色名稱:" = "character name:";
+"角色名稱:" = "Character name:";
 
 /* No comment provided by engineer. */
 "使用者帳號(mail)" = "User account(mail)";
@@ -17,16 +14,16 @@
 "密碼" = "password";
 
 /* No comment provided by engineer. */
-"登入   " = "Log in   ";
+"登入" = "Log in";
 
 /* No comment provided by engineer. */
 "註冊" = "Register";
 
 /* No comment provided by engineer. */
-"進入遊戲" = "enter the game";
+"進入遊戲" = "Enter the game";
 
 /* No comment provided by engineer. */
-"確定" = "sure";
+"確定" = "Sure";
 
 /* No comment provided by engineer. */
 "請輸入名稱" = "Please enter the name";
@@ -38,5 +35,115 @@
 "請輸入帳號" = "Please enter your account";
 
 /* No comment provided by engineer. */
-"隨機" = "random";
+"隨機" = "Random";
+/* No comment provided by engineer. */
+"暸解了" = "Go back";
+//Register
+/* No comment provided by engineer. */
+"回到上頁" = "Go back";
+/* No comment provided by engineer. */
+"帳號註冊" = "Register";
+
+
+//introduction . setting
+/* No comment provided by engineer. */
+"設定" = "Setting";
+/* No comment provided by engineer. */
+"遊戲介紹" = "Introduction";
+
+
+
+//enterRoomView
+/* No comment provided by engineer. */
+"創建房間" = "Room Building";
+/* No comment provided by engineer. */
+"房間名稱" = "room name";
+/* No comment provided by engineer. */
+"進入房間" = "Enter room";
+/* No comment provided by engineer. */
+"房間密碼" = "password of room";
+/* No comment provided by engineer. */
+"搜尋房間" = "Room Searching";
+/* No comment provided by engineer. */
+"輸入房間名稱" = "Enter room name";
+/* No comment provided by engineer. */
+"輸入房間密碼" = "Enter room password";
+/* No comment provided by engineer. */
+"金幣:" = "My coins:";
+/* No comment provided by engineer. */
+"金幣:" = "My coins:";
+/* No comment provided by engineer. */
+"金幣:" = "My coins:";
+
+
+
+
+//waitingRoomView
+/* No comment provided by engineer. */
+"未準備" = "Not prepared";
+/* No comment provided by engineer. */
+"已準備" = "Prepared";
+/* No comment provided by engineer. */
+"人數:" = "Player numbers:";
+/* No comment provided by engineer. */
+"已準備人數:" = "Prepared player numbers:";
+/* No comment provided by engineer. */
+"未準備" = "Not prepared";
+/* No comment provided by engineer. */
+"遊戲進入失敗" = "Fail";
+/* No comment provided by engineer. */
+"人數不足三人" = "Prepared persons is less than three";
+
+//gameView
+/* No comment provided by engineer. */
+"目前訂單" = "Current order";
+/* No comment provided by engineer. */
+"青菜:" = "Vegetable:";
+/* No comment provided by engineer. */
+"番茄:" = "Tomato:";
+/* No comment provided by engineer. */
+"青菜" = "Vegetable";
+/* No comment provided by engineer. */
+"番茄" = "Tomato";
+/* No comment provided by engineer. */
+"遊戲開始" = "Start!";
+/* No comment provided by engineer. */
+"洗菜" = "Wash";
+/* No comment provided by engineer. */
+"拿取:" = "Take";
+/* No comment provided by engineer. */
+"放下:" = "Put down:";
+/* No comment provided by engineer. */
+"做菜" = "Cook";
+/* No comment provided by engineer. */
+"金幣:" = "Coin:";
+/* No comment provided by engineer. */
+"剩餘時間：" = "Remaining time:";
+/* No comment provided by engineer. */
+"時間結束" = "End";
+//endView
+/* No comment provided by engineer. */
+"此關得分" = "coins";
+/* No comment provided by engineer. */
+"再玩一次" = "play again";
+/* No comment provided by engineer. */
+"此關得分:" = "Score:";
+/* No comment provided by engineer. */
+"餐廳打烊了，辛苦大廚啦～" = "Game over";
+/* No comment provided by engineer. */
+"看廣告加分" = "Watch ads for extra coins";
+
+////chart
+/* No comment provided by engineer. */
+"排行榜" = "Charts";
+/* No comment provided by engineer. */
+"排行" = "Ranks";
+/* No comment provided by engineer. */
+"沒有人喔QQ" = "unknown";
+/* No comment provided by engineer. */
+"玩家" = "Player";
+/* No comment provided by engineer. */
+"金幣" = "Coins";
+/* No comment provided by engineer. */
+"回到首頁" = "Homepage";
 

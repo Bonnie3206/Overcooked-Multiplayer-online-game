@@ -49,110 +49,117 @@ struct WaitingRoomView: View {
     
     var body: some View {
         
-        
-        VStack{
-            Text("\(roomDocumentName)")
-                .font(.largeTitle)
-            HStack{
-                Text("人數:\(showRoomQuantity)")
-                Text("已準備人數:\(showPreparedQuantity)")
-            }
-            HStack{
-                VStack{
+        ZStack{
+            Image("房間背景")
+                .resizable()
+                .scaledToFit()
+                .scaleEffect(1.1)
+            VStack{
+                Text("\(roomDocumentName)")
+                    .font(.largeTitle)
+                HStack{
+                    Text("人數:")
+                    Text("\(showRoomQuantity)")
                     
-                    KFImage(URL(string: "\(URLString_Player1)"))
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 180)
-                    /*
-                    Image("\(photo1)")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 180)
- */
-                    HStack{
-                        Text("\(showName_Player1)")
-                            .font(.largeTitle)
-                    }
+                    Text("已準備人數:")
+                    Text("\(showPreparedQuantity)")
                 }
-                VStack{
-                    KFImage(URL(string: "\(URLString_Player2)"))
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 180)
-                    /*
-                    Image("\(photo1)")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 180)
- */
-                    
-                    HStack{
-                        Text("\(showName_Player2)")
-                            .font(.largeTitle)
-                    }
-                }
-                VStack{
-                    KFImage(URL(string: "\(URLString_Player3)"))
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 180)
-                    /*
-                    Image("\(photo1)")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 180)
- */
-                    HStack{
-                        Text("\(showName_Player3)")
-                            .font(.largeTitle)
-                    }
-                }
-                
-            }
-            HStack{
-                
-                Button(action: {
-                    GamePrepared.toggle()
-                    if GamePrepared == true{
-                        addPreparedQuantity(room:roomDocumentName)
-                        GamePreparedText = "已準備"
-                    }else{
-                        minusPreparedQuantity(room:roomDocumentName)
-                        GamePreparedText = "未準備"
-                    }
-                    
-                }, label: {
-                    Text("\(GamePreparedText)")
-                        .padding(7)
-                        .padding(.horizontal, 25)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .padding(.horizontal, 10)
-                })
-                Button(action: {
-                    if showPreparedQuantity >= 0{
-                        goGameView = true
-                        createCharacterPositon(name:userName,x:0,y:0)
-                    }else{
-                        showEnterGameError = true
-                    }
-                    
-                }, label: {
-                    Text("進入遊戲")
-                        .padding(7)
-                        .padding(.horizontal, 25)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .padding(.horizontal, 10)
-                }).alert(isPresented: $showEnterGameError) { () -> Alert in
-                    
-                    Alert(title: Text("遊戲進入失敗"), message: Text("人數不足三人"), dismissButton: .default(Text("確定"), action: {
+                HStack{
+                    VStack{
                         
-                    }))
+                        ImageView(withURL: "\(URLString_Player1)")
+                            .scaledToFit()
+                            .frame(width: 150, height: 180)
+                            .cornerRadius(400)
+                       
+                        HStack{
+                            Text("\(showName_Player1)")
+                                .font(.system(size: 30, weight: .regular, design: .monospaced))
+                        }
+                    }
+                    VStack{
+                        ImageView(withURL: "\(URLString_Player2)")
+                            .scaledToFit()
+                            .frame(width: 150, height: 180)
+                            .cornerRadius(400)
+                
+                        
+                        HStack{
+                            Text("\(showName_Player2)")
+                                .font(.system(size: 30, weight: .regular, design: .monospaced))
+                        }
+                    }
+                    VStack{
+                        ImageView(withURL: "\(URLString_Player3)")
+                            .scaledToFit()
+                            .frame(width: 150, height: 180)
+                            .cornerRadius(400)
+                        
+                        HStack{
+                            Text("\(showName_Player3)")
+                                .font(.system(size: 30, weight: .regular, design: .monospaced))
+                        }
+                    }
+                    
                 }
+                HStack{
+                    
+                    Button(action: {
+                        GamePrepared.toggle()
+                        if GamePrepared == true{
+                            addPreparedQuantity(room:roomDocumentName)
+                            GamePreparedText = "已準備"
+                            
+                        }else{
+                            minusPreparedQuantity(room:roomDocumentName)
+                            GamePreparedText = "未準備"
+                        }
+                        
+                    }, label: {
+                        if GamePreparedText == "已準備"{
+                            Text(NSLocalizedString("已準備",
+                            comment: ""))
+                                .padding(7)
+                                .padding(.horizontal, 25)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .padding(.horizontal, 10)
+                        }else{
+                            Text(NSLocalizedString("未準備",
+                            comment: ""))
+                                .padding(7)
+                                .padding(.horizontal, 25)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .padding(.horizontal, 10)
+                        }
+                            
+                    })
+                    Button(action: {
+                        if showPreparedQuantity >= 3 {
+                            goGameView = true
+                            createCharacterPositon(name:userName,x:0,y:0)
+                        }else{
+                            showEnterGameError = true
+                        }
+                        
+                    }, label: {
+                        Text("進入遊戲")
+                            .padding(7)
+                            .padding(.horizontal, 25)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .padding(.horizontal, 10)
+                    }).alert(isPresented: $showEnterGameError) { () -> Alert in
+                        
+                        Alert(title: Text("遊戲進入失敗"), message: Text("人數不足三人"), dismissButton: .default(Text("確定"), action: {
+                            
+                        }))
+                    }
 
+                }
             }
+            
         }
         .onAppear(
             perform:{
@@ -178,6 +185,9 @@ struct WaitingRoomView: View {
                     showRoomStart = Bool(room.start)
                     
                     showRoomQuantity = Int(room.quantity)
+                    if showRoomQuantity > 3{
+                        showRoomQuantity = 3
+                    }
                     showPreparedQuantity = Int(room.preparedQuantity)
                     
                     queue.async {//非同步
